@@ -1,0 +1,11 @@
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\bin\Debug\net9.0\BuildingBlocks.deps.json
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\bin\Debug\net9.0\BuildingBlocks.dll
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\bin\Debug\net9.0\BuildingBlocks.pdb
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\obj\Debug\net9.0\BuildingBlocks.GeneratedMSBuildEditorConfig.editorconfig
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\obj\Debug\net9.0\BuildingBlocks.AssemblyInfoInputs.cache
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\obj\Debug\net9.0\BuildingBlocks.AssemblyInfo.cs
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\obj\Debug\net9.0\BuildingBlocks.csproj.CoreCompileInputs.cache
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\obj\Debug\net9.0\BuildingBlocks.dll
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\obj\Debug\net9.0\refint\BuildingBlocks.dll
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\obj\Debug\net9.0\BuildingBlocks.pdb
+D:\KienTrucPhanMem\TieuLuan\building-blocks\BuildingBlocks\obj\Debug\net9.0\ref\BuildingBlocks.dll

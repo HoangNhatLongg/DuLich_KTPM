@@ -1,0 +1,17 @@
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\Report.Infrastructure.csproj.AssemblyReference.cache
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\Report.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\Report.Infrastructure.AssemblyInfoInputs.cache
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\Report.Infrastructure.AssemblyInfo.cs
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\Report.Infrastructure.csproj.CoreCompileInputs.cache
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\bin\Debug\net8.0\Report.Infrastructure.deps.json
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\bin\Debug\net8.0\Report.Infrastructure.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\bin\Debug\net8.0\Report.Infrastructure.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\bin\Debug\net8.0\Report.Application.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\bin\Debug\net8.0\Report.Domain.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\bin\Debug\net8.0\Report.Domain.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\bin\Debug\net8.0\Report.Application.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\Report.I.1C095C71.Up2Date
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\Report.Infrastructure.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\refint\Report.Infrastructure.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\Report.Infrastructure.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Infrastructure\obj\Debug\net8.0\ref\Report.Infrastructure.dll

@@ -1,0 +1,268 @@
+
+# =====================================================
+#  Travel Company - Microservices Docker Compose
+# =====================================================
+
+services:
+
+  # ---------------------------------------------------
+  # INFRASTRUCTURE: PostgreSQL
+  # ---------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: travel_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TZ: Asia/Ho_Chi_Minh
+      PGTZ: Asia/Ho_Chi_Minh
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - travel_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------
+  # INFRASTRUCTURE: RabbitMQ
+  # ---------------------------------------------------
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: travel_rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"       # AMQP Protocol
+      - "15672:15672"     # Management UI → http://localhost:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - travel_network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+  # ---------------------------------------------------
+  # SERVICE: User Service
+  # ---------------------------------------------------
+  user-service:
+    build:
+      context: .
+      dockerfile: services/User/User.API/Dockerfile
+    container_name: travel_user_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=UserServiceDb;Username=postgres;Password=postgres"
+      Jwt__Issuer: "TravelCompany_ApiGateway"
+      Jwt__Audience: "TravelCompany_Users"
+      Jwt__SecretKey: "ThisIsAVerySecretKeyForJwtAuthenticationInTravelCompany!"
+    ports:
+      - "5001:8080"
+    networks:
+      - travel_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ---------------------------------------------------
+  # SERVICE: Tour Service
+  # ---------------------------------------------------
+  tour-service:
+    build:
+      context: .
+      dockerfile: services/Tour/Tour.API/Dockerfile
+    container_name: travel_tour_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=TourServiceDb;Username=postgres;Password=postgres"
+      JwtSettings__Issuer: "TravelCompany_ApiGateway"
+      JwtSettings__Audience: "TravelCompany_Users"
+      JwtSettings__SecretKey: "ThisIsAVerySecretKeyForJwtAuthenticationInTravelCompany!"
+    ports:
+      - "5002:8080"
+    networks:
+      - travel_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ---------------------------------------------------
+  # SERVICE: Booking Service
+  # ---------------------------------------------------
+  booking-service:
+    build:
+      context: .
+      dockerfile: services/Booking/Booking.API/Dockerfile
+    container_name: travel_booking_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=BookingServiceDb;Username=postgres;Password=postgres"
+      JwtSettings__Issuer: "TravelCompany_ApiGateway"
+      JwtSettings__Audience: "TravelCompany_Users"
+      JwtSettings__SecretKey: "ThisIsAVerySecretKeyForJwtAuthenticationInTravelCompany!"
+      RabbitMQ__HostName: rabbitmq
+      RabbitMQ__UserName: guest
+      RabbitMQ__Password: guest
+    ports:
+      - "5003:8080"
+    networks:
+      - travel_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ---------------------------------------------------
+  # SERVICE: Payment Service
+  # ---------------------------------------------------
+  payment-service:
+    build:
+      context: .
+      dockerfile: services/Payment/Payment.API/Dockerfile
+    container_name: travel_payment_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=PaymentDb;Username=postgres;Password=postgres"
+      RabbitMQ__HostName: rabbitmq
+      RabbitMQ__UserName: guest
+      RabbitMQ__Password: guest
+    ports:
+      - "5004:8080"
+    networks:
+      - travel_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ---------------------------------------------------
+  # SERVICE: Staff Service
+  # ---------------------------------------------------
+  staff-service:
+    build:
+      context: .
+      dockerfile: services/Staff/Staff.API/Dockerfile
+    container_name: travel_staff_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=StaffDb;Username=postgres;Password=postgres"
+      JwtSettings__Issuer: "TravelCompany_ApiGateway"
+      JwtSettings__Audience: "TravelCompany_Users"
+      JwtSettings__SecretKey: "ThisIsAVerySecretKeyForJwtAuthenticationInTravelCompany!"
+    ports:
+      - "5005:8080"
+    networks:
+      - travel_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ---------------------------------------------------
+  # SERVICE: Report Service
+  # ---------------------------------------------------
+  report-service:
+    build:
+      context: .
+      dockerfile: services/Report/Report.API/Dockerfile
+    container_name: travel_report_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=ReportDb;Username=postgres;Password=postgres"
+      JwtSettings__Issuer: "TravelCompany_ApiGateway"
+      JwtSettings__Audience: "TravelCompany_Users"
+      JwtSettings__SecretKey: "ThisIsAVerySecretKeyForJwtAuthenticationInTravelCompany!"
+      RabbitMQ__HostName: rabbitmq
+      RabbitMQ__UserName: guest
+      RabbitMQ__Password: guest
+    ports:
+      - "5006:8080"
+    networks:
+      - travel_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ---------------------------------------------------
+  # SERVICE: Notification Service (Worker)
+  # ---------------------------------------------------
+  notification-service:
+    build:
+      context: .
+      dockerfile: services/Notification/Notification.Service/Dockerfile
+    container_name: travel_notification_service
+    restart: unless-stopped
+    environment:
+      DOTNET_ENVIRONMENT: Production
+      RabbitMQ__HostName: rabbitmq
+      RabbitMQ__UserName: guest
+      RabbitMQ__Password: guest
+    networks:
+      - travel_network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  # ---------------------------------------------------
+  # SERVICE: API Gateway
+  # ---------------------------------------------------
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/ApiGateway/Dockerfile
+    container_name: travel_api_gateway
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      JwtSettings__Issuer: "TravelCompany_ApiGateway"
+      JwtSettings__Audience: "TravelCompany_Users"
+      JwtSettings__SecretKey: "ThisIsAVerySecretKeyForJwtAuthenticationInTravelCompany!"
+      # Override YARP cluster destinations to use container names
+      ReverseProxy__Clusters__userCluster__Destinations__destination1__Address: "http://user-service:8080"
+      ReverseProxy__Clusters__tourCluster__Destinations__destination1__Address: "http://tour-service:8080"
+      ReverseProxy__Clusters__bookingCluster__Destinations__destination1__Address: "http://booking-service:8080"
+    ports:
+      - "5000:8080"    # Main entry point → http://localhost:5000
+    networks:
+      - travel_network
+    depends_on:
+      - user-service
+      - tour-service
+      - booking-service
+
+# ---------------------------------------------------
+# NETWORKS
+# ---------------------------------------------------
+networks:
+  travel_network:
+    driver: bridge
+    name: travel_network
+
+# ---------------------------------------------------
+# VOLUMES
+# ---------------------------------------------------
+volumes:
+  postgres_data:
+    name: travel_postgres_data
+  rabbitmq_data:
+    name: travel_rabbitmq_data

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxTravel Admin – Quản trị hệ thống</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <span class="logo-icon">✦</span>
+      <span class="logo-text">LuxTravel</span>
+    </div>
+    <span class="sidebar-badge">Admin</span>
+  </div>
+
+  <div class="sidebar-profile">
+    <div class="avatar">NQ</div>
+    <div class="profile-info">
+      <strong>Nguyễn Quang</strong>
+      <span>Quản trị viên</span>
+    </div>
+    <div class="online-dot"></div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <p class="nav-section-label">Tổng quan</p>
+    <ul>
+      <li>
+        <a href="#" class="sidebar-link active" onclick="navigate('dashboard', this)">
+          <span class="sidebar-icon">◉</span>
+          <span>Bảng điều khiển</span>
+        </a>
+      </li>
+    </ul>
+    <p class="nav-section-label">Quản lý</p>
+    <ul>
+      <li>
+        <a href="#" class="sidebar-link" onclick="navigate('tours', this)">
+          <span class="sidebar-icon">✈</span>
+          <span>Quản lý Tour</span>
+          <span class="nav-badge">12</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="sidebar-link" onclick="navigate('bookings', this)">
+          <span class="sidebar-icon">📋</span>
+          <span>Đặt chỗ</span>
+          <span class="nav-badge new">8</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="sidebar-link" onclick="navigate('customers', this)">
+          <span class="sidebar-icon">👤</span>
+          <span>Khách hàng</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="sidebar-link" onclick="navigate('reports', this)">
+          <span class="sidebar-icon">📊</span>
+          <span>Báo cáo & Thống kê</span>
+        </a>
+      </li>
+    </ul>
+    <p class="nav-section-label">Hệ thống</p>
+    <ul>
+      <li>
+        <a href="#" class="sidebar-link" onclick="navigate('settings', this)">
+          <span class="sidebar-icon">⚙</span>
+          <span>Cài đặt</span>
+        </a>
+      </li>
+      <li>
+        <a href="index.html" class="sidebar-link">
+          <span class="sidebar-icon">🌐</span>
+          <span>Xem website</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-storage">
+      <div class="storage-info">
+        <span>Lưu trữ</span>
+        <span>72%</span>
+      </div>
+      <div class="storage-bar"><div class="storage-fill" style="width:72%"></div></div>
+    </div>
+    <a href="#" class="btn-logout">
+      <span>⏻</span> Đăng xuất
+    </a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="admin-main" id="adminMain">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="toggle-btn" id="toggleBtn" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Tìm kiếm tour, khách hàng, booking...">
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-date">
+        <span id="currentDate"></span>
+      </div>
+      <button class="icon-btn notif-btn" onclick="toggleNotif()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notif-count">3</span>
+      </button>
+      <div class="topbar-user" onclick="toggleUserMenu()">
+        <div class="topbar-avatar">NQ</div>
+        <span class="topbar-name">Nguyễn Quang</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notification Panel -->
+  <div class="notif-panel" id="notifPanel">
+    <div class="notif-header">
+      <strong>Thông báo</strong>
+      <button onclick="toggleNotif()">✕</button>
+    </div>
+    <div class="notif-list">
+      <div class="notif-item unread">
+        <div class="notif-dot"></div>
+        <div>
+          <p>Đặt chỗ mới từ <strong>Trần Thị Mai</strong> – Tour Bali 5N4Đ</p>
+          <span>5 phút trước</span>
+        </div>
+      </div>
+      <div class="notif-item unread">
+        <div class="notif-dot"></div>
+        <div>
+          <p>Thanh toán xác nhận – Booking <strong>#LT789231</strong></p>
+          <span>23 phút trước</span>
+        </div>
+      </div>
+      <div class="notif-item unread">
+        <div class="notif-dot"></div>
+        <div>
+          <p>Đánh giá mới 5⭐ từ <strong>Phạm Văn Hoàng</strong></p>
+          <span>1 giờ trước</span>
+        </div>
+      </div>
+      <div class="notif-item">
+        <div class="notif-dot read"></div>
+        <div>
+          <p>Tour Santorini sắp hết chỗ – còn 3 suất</p>
+          <span>3 giờ trước</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <main class="admin-content" id="adminContent">
+
+    <!-- ========= DASHBOARD ========= -->
+    <div id="section-dashboard" class="admin-section active">
+      <div class="section-title-bar">
+        <div>
+          <h1>Bảng Điều Khiển</h1>
+          <p>Tổng quan hoạt động kinh doanh</p>
+        </div>
+        <div class="section-actions">
+          <select class="select-period" onchange="updateChartPeriod(this.value)">
+            <option value="week">7 ngày qua</option>
+            <option value="month" selected>Tháng này</option>
+            <option value="quarter">Quý này</option>
+          </select>
+          <button class="btn-export" onclick="showToast('Đã xuất báo cáo PDF!')">↓ Xuất báo cáo</button>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stat-cards">
+        <div class="stat-card" style="--accent:#c9a96e">
+          <div class="stat-card-icon">✈</div>
+          <div class="stat-card-body">
+            <p class="stat-card-label">Tour đang mở</p>
+            <h2 class="stat-card-value" data-target="48">0</h2>
+            <p class="stat-card-change up">▲ 4 tour mới tháng này</p>
+          </div>
+          <div class="stat-card-chart">
+            <div class="mini-bars">
+              <div style="--h:60%"></div><div style="--h:75%"></div><div style="--h:55%"></div>
+              <div style="--h:80%"></div><div style="--h:70%"></div><div style="--h:90%"></div><div style="--h:85%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card" style="--accent:#7cb9e8">
+          <div class="stat-card-icon">📋</div>
+          <div class="stat-card-body">
+            <p class="stat-card-label">Booking hôm nay</p>
+            <h2 class="stat-card-value" data-target="23">0</h2>
+            <p class="stat-card-change up">▲ 18% so với hôm qua</p>
+          </div>
+          <div class="stat-card-chart">
+            <div class="mini-bars">
+              <div style="--h:40%"></div><div style="--h:65%"></div><div style="--h:50%"></div>
+              <div style="--h:85%"></div><div style="--h:60%"></div><div style="--h:70%"></div><div style="--h:95%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card" style="--accent:#90c97e">
+          <div class="stat-card-icon">💰</div>
+          <div class="stat-card-body">
+            <p class="stat-card-label">Doanh thu tháng</p>
+            <h2 class="stat-card-value revenue">0</h2>
+            <p class="stat-card-change up">▲ 24% so với tháng trước</p>
+          </div>
+          <div class="stat-card-chart">
+            <div class="mini-bars">
+              <div style="--h:50%"></div><div style="--h:60%"></div><div style="--h:70%"></div>
+              <div style="--h:65%"></div><div style="--h:75%"></div><div style="--h:85%"></div><div style="--h:90%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card" style="--accent:#e8a0d0">
+          <div class="stat-card-icon">👤</div>
+          <div class="stat-card-body">
+            <p class="stat-card-label">Khách hàng mới</p>
+            <h2 class="stat-card-value" data-target="156">0</h2>
+            <p class="stat-card-change down">▼ 3% so với tháng trước</p>
+          </div>
+          <div class="stat-card-chart">
+            <div class="mini-bars">
+              <div style="--h:75%"></div><div style="--h:65%"></div><div style="--h:80%"></div>
+              <div style="--h:55%"></div><div style="--h:70%"></div><div style="--h:60%"></div><div style="--h:65%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS + RECENT -->
+      <div class="dashboard-grid">
+        <!-- Revenue Chart -->
+        <div class="card chart-card">
+          <div class="card-header">
+            <h3>Doanh thu theo tháng</h3>
+            <div class="chart-legend">
+              <span class="legend-dot" style="--c:#c9a96e"></span>Doanh thu
+              <span class="legend-dot" style="--c:#7cb9e8"></span>Đặt chỗ
+            </div>
+          </div>
+          <div class="bar-chart" id="revenueChart"></div>
+          <div class="chart-labels" id="chartLabels"></div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="card quick-stats-card">
+          <div class="card-header"><h3>Thống kê nhanh</h3></div>
+          <div class="donut-wrap">
+            <div class="donut" style="--p:68; --c:#c9a96e">
+              <div class="donut-center">
+                <strong>68%</strong>
+                <span>Đã TT</span>
+              </div>
+            </div>
+          </div>
+          <div class="quick-stat-list">
+            <div class="quick-stat-item">
+              <span class="qs-dot" style="background:#c9a96e"></span>
+              <span>Đã thanh toán</span>
+              <span class="qs-val">68%</span>
+            </div>
+            <div class="quick-stat-item">
+              <span class="qs-dot" style="background:#7cb9e8"></span>
+              <span>Chờ thanh toán</span>
+              <span class="qs-val">21%</span>
+            </div>
+            <div class="quick-stat-item">
+              <span class="qs-dot" style="background:#e8a0d0"></span>
+              <span>Đã hủy</span>
+              <span class="qs-val">11%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT BOOKINGS TABLE -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Đặt chỗ gần đây</h3>
+          <button class="btn-view-all" onclick="navigate('bookings', document.querySelector('[onclick*=\"bookings\"]'))">Xem tất cả →</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="recentBookingsTable">
+            <thead>
+              <tr>
+                <th>Mã Booking</th>
+                <th>Khách hàng</th>
+                <th>Tour</th>
+                <th>Ngày đi</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="recentBookingsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TOP TOURS -->
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header"><h3>Tour phổ biến nhất</h3></div>
+        <div class="top-tours-list" id="topToursList"></div>
+      </div>
+    </div>
+
+    <!-- ========= TOUR MANAGEMENT ========= -->
+    <div id="section-tours" class="admin-section">
+      <div class="section-title-bar">
+        <div>
+          <h1>Quản lý Tour</h1>
+          <p>Danh sách và quản lý các tour du lịch</p>
+        </div>
+        <div class="section-actions">
+          <input type="text" class="search-input" placeholder="🔍 Tìm tour..." oninput="searchTours(this.value)">
+          <button class="btn-primary-admin" onclick="openTourModal()">+ Thêm tour mới</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="tab-group">
+            <button class="tab-btn active" onclick="filterAdminTours('all', this)">Tất cả (6)</button>
+            <button class="tab-btn" onclick="filterAdminTours('chau-a', this)">Châu Á</button>
+            <button class="tab-btn" onclick="filterAdminTours('chau-au', this)">Châu Âu</button>
+            <button class="tab-btn" onclick="filterAdminTours('dao', this)">Đảo</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tour</th>
+                <th>Mô tả</th>
+                <th>Thời gian</th>
+                <th>Giá/người</th>
+                <th>Số chỗ</th>
+                <th>Cập nhật</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="adminToursTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========= BOOKINGS ========= -->
+    <div id="section-bookings" class="admin-section">
+      <div class="section-title-bar">
+        <div>
+          <h1>Quản lý Đặt chỗ</h1>
+          <p>Tất cả đặt chỗ và trạng thái thanh toán</p>
+        </div>
+        <div class="section-actions">
+          <select class="select-period" onchange="filterBookingStatus(this.value)">
+            <option value="all">Tất cả trạng thái</option>
+            <option value="paid">Đã thanh toán</option>
+            <option value="pending">Chờ thanh toán</option>
+            <option value="cancelled">Đã hủy</option>
+          </select>
+          <button class="btn-export" onclick="showToast('Đã xuất danh sách booking!')">↓ Xuất Excel</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mã Booking</th>
+                <th>Khách hàng</th>
+                <th>Tour</th>
+                <th>Ngày đặt</th>
+                <th>Ngày đi</th>
+                <th>Số người</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="allBookingsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========= CUSTOMERS ========= -->
+    <div id="section-customers" class="admin-section">
+      <div class="section-title-bar">
+        <div>
+          <h1>Quản lý Khách hàng</h1>
+          <p>Thông tin và lịch sử khách hàng</p>
+        </div>
+        <div class="section-actions">
+          <input type="text" class="search-input" placeholder="🔍 Tìm khách hàng...">
+          <button class="btn-export">↓ Xuất danh sách</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Khách hàng</th>
+                <th>Email</th>
+                <th>Điện thoại</th>
+                <th>Số booking</th>
+                <th>Tổng chi tiêu</th>
+                <th>Hạng VIP</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="customersTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========= REPORTS ========= -->
+    <div id="section-reports" class="admin-section">
+      <div class="section-title-bar">
+        <div>
+          <h1>Báo cáo & Thống kê</h1>
+          <p>Phân tích dữ liệu kinh doanh chi tiết</p>
+        </div>
+        <div class="section-actions">
+          <select class="select-period">
+            <option>Tháng 7/2025</option>
+            <option>Tháng 6/2025</option>
+            <option>Quý 2/2025</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="reports-grid">
+        <div class="card report-card">
+          <h3>Doanh thu theo điểm đến</h3>
+          <div class="horizontal-bars" id="destRevBars"></div>
+        </div>
+        <div class="card report-card">
+          <h3>Phân bổ khách hàng</h3>
+          <div class="pie-legend" id="pieLegend"></div>
+        </div>
+        <div class="card report-card full-span">
+          <h3>So sánh doanh thu 6 tháng gần nhất</h3>
+          <div class="area-chart-wrap">
+            <div class="area-chart" id="areaChart"></div>
+            <div class="area-labels" id="areaLabels"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========= SETTINGS ========= -->
+    <div id="section-settings" class="admin-section">
+      <div class="section-title-bar">
+        <div>
+          <h1>Cài đặt hệ thống</h1>
+          <p>Quản lý cấu hình và tùy chỉnh</p>
+        </div>
+      </div>
+      <div class="settings-grid">
+        <div class="card settings-card">
+          <h3>Thông tin công ty</h3>
+          <div class="settings-form">
+            <div class="form-g"><label>Tên công ty</label><input type="text" value="LuxTravel Co., Ltd"></div>
+            <div class="form-g"><label>Email liên hệ</label><input type="email" value="info@luxtravel.vn"></div>
+            <div class="form-g"><label>Hotline</label><input type="text" value="1800 6868"></div>
+            <div class="form-g"><label>Địa chỉ</label><input type="text" value="123 Nguyễn Huệ, Q1, TP.HCM"></div>
+            <button class="btn-primary-admin" onclick="showToast('Đã lưu thông tin công ty!')">Lưu thay đổi</button>
+          </div>
+        </div>
+        <div class="card settings-card">
+          <h3>Cài đặt thông báo</h3>
+          <div class="toggle-list">
+            <div class="toggle-item">
+              <div><strong>Email booking mới</strong><p>Nhận email khi có booking mới</p></div>
+              <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+            </div>
+            <div class="toggle-item">
+              <div><strong>Thông báo thanh toán</strong><p>Cảnh báo khi thanh toán thành công</p></div>
+              <label class="toggle"><input type="checkbox" checked><span class="slider"></span></label>
+            </div>
+            <div class="toggle-item">
+              <div><strong>Báo cáo hàng tuần</strong><p>Nhận báo cáo mỗi thứ Hai</p></div>
+              <label class="toggle"><input type="checkbox"><span class="slider"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- TOUR MODAL -->
+<div class="modal-overlay" id="tourModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <h2 id="tourModalTitle">Thêm tour mới</h2>
+      <button class="modal-close-btn" onclick="closeTourModal()">✕</button>
+    </div>
+    <div class="admin-modal-body">
+      <div class="modal-form-grid">
+        <div class="form-g full">
+          <label>Tên tour *</label>
+          <input type="text" id="tourFormName" placeholder="VD: Bali – Thiên Đường Nhiệt Đới">
+        </div>
+        <div class="form-g">
+          <label>Số chỗ còn lại *</label>
+          <input type="number" id="tourFormSlots" placeholder="VD: 20">
+        </div>
+        <div class="form-g">
+          <label>Giá người lớn (VNĐ) *</label>
+          <input type="number" id="tourFormPrice" placeholder="18900000">
+        </div>
+        <div class="form-g">
+          <label>Số ngày</label>
+          <input type="text" id="tourFormDuration" placeholder="Tự suy ra từ lịch trình" disabled>
+        </div>
+        <div class="form-g">
+          <label>Số ngày lịch trình</label>
+          <input type="number" id="tourFormDayCount" min="1" placeholder="VD: 3">
+        </div>
+        <div class="form-g full">
+          <label>Mô tả *</label>
+          <textarea id="tourFormDesc" rows="4" placeholder="Mô tả ngắn gọn về tour..."></textarea>
+        </div>
+        <div class="form-g full">
+          <label>Lịch trình</label>
+          <textarea id="tourFormItinerary" rows="6" placeholder="Mỗi dòng là một ngày. Ví dụ:&#10;Ngày 1: Đón khách và nhận phòng&#10;Ngày 2: Tham quan điểm nổi bật"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="btn-cancel" onclick="closeTourModal()">Hủy bỏ</button>
+      <button class="btn-primary-admin" onclick="saveTour()">💾 Lưu tour</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="admin-modal" style="max-width:400px">
+    <div class="admin-modal-header">
+      <h2>Xác nhận</h2>
+      <button class="modal-close-btn" onclick="closeModal('confirmModal')">✕</button>
+    </div>
+    <div class="admin-modal-body" style="text-align:center;padding:2rem 1rem">
+      <div style="font-size:3rem;margin-bottom:1rem">⚠️</div>
+      <p id="confirmMsg" style="color:var(--text-muted)">Bạn có chắc muốn thực hiện thao tác này?</p>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="btn-cancel" onclick="closeModal('confirmModal')">Hủy</button>
+      <button class="btn-danger" id="confirmActionBtn">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="admin-toast" id="adminToast"></div>
+
+<script src="shared.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

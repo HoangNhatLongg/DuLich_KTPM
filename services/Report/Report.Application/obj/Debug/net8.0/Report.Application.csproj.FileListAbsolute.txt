@@ -1,0 +1,15 @@
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\bin\Debug\net8.0\Report.Application.deps.json
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\bin\Debug\net8.0\Report.Application.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\bin\Debug\net8.0\Report.Application.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\bin\Debug\net8.0\Report.Domain.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\bin\Debug\net8.0\Report.Domain.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\Report.Application.csproj.AssemblyReference.cache
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\Report.Application.GeneratedMSBuildEditorConfig.editorconfig
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\Report.Application.AssemblyInfoInputs.cache
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\Report.Application.AssemblyInfo.cs
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\Report.Application.csproj.CoreCompileInputs.cache
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\Report.A.3A3967C0.Up2Date
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\Report.Application.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\refint\Report.Application.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\Report.Application.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Application\obj\Debug\net8.0\ref\Report.Application.dll

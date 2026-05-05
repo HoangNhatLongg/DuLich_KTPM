@@ -1,0 +1,232 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "Microsoft.AspNetCore.OpenApi/9.0.8": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.OpenApi": "1.6.17"
+        },
+        "compile": {
+          "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
+      "Microsoft.OpenApi/1.6.17": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "BuildingBlocks/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/BuildingBlocks.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BuildingBlocks.dll": {}
+        }
+      },
+      "Notification.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "BuildingBlocks": "1.0.0",
+          "Notification.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Notification.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Notification.Application.dll": {}
+        }
+      },
+      "Notification.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Notification.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Notification.Domain.dll": {}
+        }
+      },
+      "Notification.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "BuildingBlocks": "1.0.0",
+          "Notification.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Notification.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Notification.Infrastructure.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Microsoft.AspNetCore.OpenApi/9.0.8": {
+      "sha512": "BwF9sQCKmvu93C/pmKxJjPhF5fFB23MEcgTsGL+7W3wKLYawS4lyFSL5/qh00IJzuADLf+1SmvxMaphbyZYqQQ==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.openapi/9.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll",
+        "lib/net9.0/Microsoft.AspNetCore.OpenApi.xml",
+        "microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
+        "microsoft.aspnetcore.openapi.nuspec"
+      ]
+    },
+    "Microsoft.OpenApi/1.6.17": {
+      "sha512": "Le+kehlmrlQfuDFUt1zZ2dVwrhFQtKREdKBo+rexOwaCoYP0/qpgT9tLxCsZjsgR5Itk1UKPcbgO+FyaNid/bA==",
+      "type": "package",
+      "path": "microsoft.openapi/1.6.17",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/netstandard2.0/Microsoft.OpenApi.dll",
+        "lib/netstandard2.0/Microsoft.OpenApi.pdb",
+        "lib/netstandard2.0/Microsoft.OpenApi.xml",
+        "microsoft.openapi.1.6.17.nupkg.sha512",
+        "microsoft.openapi.nuspec"
+      ]
+    },
+    "BuildingBlocks/1.0.0": {
+      "type": "project",
+      "path": "../../../building-blocks/BuildingBlocks/BuildingBlocks.csproj",
+      "msbuildProject": "../../../building-blocks/BuildingBlocks/BuildingBlocks.csproj"
+    },
+    "Notification.Application/1.0.0": {
+      "type": "project",
+      "path": "../Notification.Application/Notification.Application.csproj",
+      "msbuildProject": "../Notification.Application/Notification.Application.csproj"
+    },
+    "Notification.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Notification.Domain/Notification.Domain.csproj",
+      "msbuildProject": "../Notification.Domain/Notification.Domain.csproj"
+    },
+    "Notification.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Notification.Infrastructure/Notification.Infrastructure.csproj",
+      "msbuildProject": "../Notification.Infrastructure/Notification.Infrastructure.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "Microsoft.AspNetCore.OpenApi >= 9.0.8",
+      "Notification.Application >= 1.0.0",
+      "Notification.Infrastructure >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\thanh\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.API\\Notification.API.csproj",
+      "projectName": "Notification.API",
+      "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.API\\Notification.API.csproj",
+      "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
+      "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.API\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {
+            "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Application\\Notification.Application.csproj": {
+              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Application\\Notification.Application.csproj"
+            },
+            "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Infrastructure\\Notification.Infrastructure.csproj": {
+              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Infrastructure\\Notification.Infrastructure.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.OpenApi": {
+            "target": "Package",
+            "version": "[9.0.8, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

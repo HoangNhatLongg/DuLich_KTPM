@@ -1,0 +1,17 @@
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\Staff.Infrastructure.csproj.AssemblyReference.cache
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\Staff.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\Staff.Infrastructure.AssemblyInfoInputs.cache
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\Staff.Infrastructure.AssemblyInfo.cs
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\Staff.Infrastructure.csproj.CoreCompileInputs.cache
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\bin\Debug\net8.0\Staff.Infrastructure.deps.json
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\bin\Debug\net8.0\Staff.Infrastructure.dll
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\bin\Debug\net8.0\Staff.Infrastructure.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\bin\Debug\net8.0\Staff.Application.dll
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\bin\Debug\net8.0\Staff.Domain.dll
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\bin\Debug\net8.0\Staff.Domain.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\bin\Debug\net8.0\Staff.Application.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\Staff.In.AE3D433F.Up2Date
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\Staff.Infrastructure.dll
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\refint\Staff.Infrastructure.dll
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\Staff.Infrastructure.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Infrastructure\obj\Debug\net8.0\ref\Staff.Infrastructure.dll

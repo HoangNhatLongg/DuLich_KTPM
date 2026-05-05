@@ -1,0 +1,11 @@
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\bin\Debug\net8.0\Report.Domain.deps.json
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\bin\Debug\net8.0\Report.Domain.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\bin\Debug\net8.0\Report.Domain.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.GeneratedMSBuildEditorConfig.editorconfig
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.AssemblyInfoInputs.cache
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.AssemblyInfo.cs
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.csproj.CoreCompileInputs.cache
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\refint\Report.Domain.dll
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.pdb
+d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\ref\Report.Domain.dll

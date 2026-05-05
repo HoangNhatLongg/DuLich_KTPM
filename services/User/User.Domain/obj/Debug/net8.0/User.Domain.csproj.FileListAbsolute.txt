@@ -1,0 +1,11 @@
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\bin\Debug\net8.0\UserService.Domain.deps.json
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\bin\Debug\net8.0\UserService.Domain.dll
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\bin\Debug\net8.0\UserService.Domain.pdb
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\User.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\User.Domain.AssemblyInfoInputs.cache
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\User.Domain.AssemblyInfo.cs
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\User.Domain.csproj.CoreCompileInputs.cache
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\UserService.Domain.dll
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\refint\UserService.Domain.dll
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\UserService.Domain.pdb
+D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\ref\UserService.Domain.dll

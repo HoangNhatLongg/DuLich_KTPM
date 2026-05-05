@@ -1,0 +1,17 @@
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\bin\Debug\net9.0\Booking.Application.deps.json
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\bin\Debug\net9.0\Booking.Application.dll
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\bin\Debug\net9.0\Booking.Application.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\bin\Debug\net9.0\Booking.Domain.dll
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\bin\Debug\net9.0\BuildingBlocks.dll
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\bin\Debug\net9.0\Booking.Domain.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\bin\Debug\net9.0\BuildingBlocks.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\Booking.Application.csproj.AssemblyReference.cache
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\Booking.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\Booking.Application.AssemblyInfoInputs.cache
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\Booking.Application.AssemblyInfo.cs
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\Booking.Application.csproj.CoreCompileInputs.cache
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\Booking..A3DD8563.Up2Date
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\Booking.Application.dll
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\refint\Booking.Application.dll
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\Booking.Application.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Application\obj\Debug\net9.0\ref\Booking.Application.dll

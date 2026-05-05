@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxTravel – Hành Trình Đẳng Cấp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <nav class="nav-container">
+    <div class="logo">
+      <span class="logo-icon">✦</span>
+      <span class="logo-text">LuxTravel</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" onclick="showPage('home')" class="nav-link active">Trang chủ</a></li>
+      <li><a href="#" onclick="showPage('destinations')" class="nav-link">Điểm đến</a></li>
+      <li><a href="#" class="nav-link">Khuyến mãi</a></li>
+      <li><a href="#" class="nav-link">Giới thiệu</a></li>
+      <li><a href="#" class="nav-link">Liên hệ</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions">
+      <button class="btn-outline" onclick="openModal('loginModal')">Đăng nhập</button>
+      <button class="btn-primary" onclick="openModal('registerModal')">Đăng ký</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- ===================== HOME PAGE ===================== -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-slides" id="heroSlides">
+      <div class="hero-slide active" style="--bg: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600')"></div>
+      <div class="hero-slide" style="--bg: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1600')"></div>
+      <div class="hero-slide" style="--bg: url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1600')"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Khám phá thế giới theo cách của bạn</p>
+      <h1 class="hero-title">Hành Trình<br><em>Đẳng Cấp</em></h1>
+      <p class="hero-subtitle">Trải nghiệm những điểm đến tuyệt vời nhất thế giới với dịch vụ 5 sao</p>
+      <div class="hero-search">
+        <div class="search-group">
+          <label>Điểm đi</label>
+          <select id="heroDepartureSelect">
+            <option>Hà Nội</option>
+            <option>TP. Hồ Chí Minh</option>
+            <option>Đà Nẵng</option>
+            <option>Hội An</option>
+          </select>
+        </div>
+        <div class="search-divider"></div>
+        <div class="search-group">
+          <label>Điểm đến</label>
+          <select id="heroDestinationSelect">
+            <option>Bali, Indonesia</option>
+            <option>Paris, Pháp</option>
+            <option>Tokyo, Nhật Bản</option>
+            <option>Santorini, Hy Lạp</option>
+          </select>
+        </div>
+        <div class="search-divider"></div>
+        <div class="search-group">
+          <label>Ngày đi</label>
+          <input type="date" id="heroDepartureDate" value="2025-08-15">
+        </div>
+        <div class="search-divider"></div>
+        <div class="search-group">
+          <label>Số người</label>
+          <select id="heroGuestSelect">
+            <option>1 người</option>
+            <option>2 người</option>
+            <option>3-5 người</option>
+            <option>6+ người</option>
+          </select>
+        </div>
+        <button class="search-btn" onclick="searchToursFromHero()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Tìm tour
+        </button>
+      </div>
+    </div>
+    <div class="hero-dots">
+      <span class="dot active" onclick="goSlide(0)"></span>
+      <span class="dot" onclick="goSlide(1)"></span>
+      <span class="dot" onclick="goSlide(2)"></span>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Cuộn xuống</span>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-num">2.5K+</span>
+        <span class="stat-label">Khách hàng hài lòng</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">180+</span>
+        <span class="stat-label">Tour độc quyền</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">45</span>
+        <span class="stat-label">Quốc gia</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">12</span>
+        <span class="stat-label">Năm kinh nghiệm</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED TOURS -->
+  <section class="featured-section">
+    <div class="section-header">
+      <p class="section-eyebrow">✦ Được yêu thích nhất</p>
+      <h2 class="section-title">Tour Nổi Bật</h2>
+      <p class="section-sub">Những hành trình được lựa chọn tinh tế, mang lại trải nghiệm khó quên</p>
+    </div>
+    <div class="tours-grid" id="featuredTours"></div>
+    <div class="section-cta">
+      <button class="btn-outline-dark" onclick="showPage('tours')">Xem tất cả tour →</button>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience-section">
+    <div class="exp-left">
+      <div class="exp-images">
+        <div class="exp-img exp-img-1" style="background-image:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600')"></div>
+        <div class="exp-img exp-img-2" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600')"></div>
+        <div class="exp-badge">
+          <span class="exp-badge-num">12</span>
+          <span class="exp-badge-text">Năm kinh nghiệm</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-right">
+      <p class="section-eyebrow">✦ Về chúng tôi</p>
+      <h2 class="exp-title">Tại Sao Chọn<br><em>LuxTravel?</em></h2>
+      <p class="exp-desc">Chúng tôi không chỉ bán tour — chúng tôi kiến tạo những ký ức không thể phai mờ. Mỗi hành trình là một tác phẩm được chăm chút từng chi tiết nhỏ nhất.</p>
+      <div class="exp-features">
+        <div class="exp-feature">
+          <div class="exp-icon">🏆</div>
+          <div>
+            <h4>Dịch vụ 5 sao</h4>
+            <p>Đội ngũ hướng dẫn viên chuyên nghiệp, tận tâm 24/7</p>
+          </div>
+        </div>
+        <div class="exp-feature">
+          <div class="exp-icon">🛡️</div>
+          <div>
+            <h4>Bảo hiểm toàn diện</h4>
+            <p>An tâm tuyệt đối với gói bảo hiểm du lịch cao cấp</p>
+          </div>
+        </div>
+        <div class="exp-feature">
+          <div class="exp-icon">💎</div>
+          <div>
+            <h4>Cá nhân hóa tuyệt đối</h4>
+            <p>Thiết kế hành trình riêng theo sở thích của bạn</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESTINATIONS -->
+  <section class="destinations-section">
+    <div class="section-header">
+      <p class="section-eyebrow">✦ Điểm đến</p>
+      <h2 class="section-title">Khám Phá Thế Giới</h2>
+    </div>
+    <div class="dest-grid">
+      <div class="dest-card dest-large" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800')">
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <h3>Bali</h3>
+          <p>Indonesia • 24 tour</p>
+        </div>
+      </div>
+      <div class="dest-card" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600')">
+        <div class="dest-overlay"></div>
+        <div class="dest-info"><h3>Paris</h3><p>Pháp • 18 tour</p></div>
+      </div>
+      <div class="dest-card" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600')">
+        <div class="dest-overlay"></div>
+        <div class="dest-info"><h3>Tokyo</h3><p>Nhật Bản • 31 tour</p></div>
+      </div>
+      <div class="dest-card" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1571406252241-db0280bd36cd?w=600')">
+        <div class="dest-overlay"></div>
+        <div class="dest-info"><h3>Santorini</h3><p>Hy Lạp • 15 tour</p></div>
+      </div>
+      <div class="dest-card" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600')">
+        <div class="dest-overlay"></div>
+        <div class="dest-info"><h3>Maldives</h3><p>Maldives • 20 tour</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-section">
+    <div class="section-header light">
+      <p class="section-eyebrow">✦ Cảm nhận</p>
+      <h2 class="section-title">Khách Hàng Nói Gì</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Chuyến đi Bali cùng LuxTravel là trải nghiệm tuyệt vời nhất trong đời tôi. Mọi chi tiết đều được chuẩn bị hoàn hảo."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#c9a96e">NL</div>
+          <div><strong>Nguyễn Lan Anh</strong><span>TP. Hồ Chí Minh</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card featured-testi">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Dịch vụ đẳng cấp, hướng dẫn viên nhiệt tình. Chúng tôi sẽ quay lại với LuxTravel cho chuyến tiếp theo. Tuyệt vời!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#7c9e87">TM</div>
+          <div><strong>Trần Minh Tuấn</strong><span>Hà Nội</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"Santorini đẹp hơn trong mơ. LuxTravel đã giúp chúng tôi có tuần trăng mật hoàn hảo không thể quên."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#9e7c7c">PH</div>
+          <div><strong>Phạm Hồng Nhung</strong><span>Đà Nẵng</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter-section">
+    <div class="newsletter-inner">
+      <div class="newsletter-deco"></div>
+      <h2>Nhận Ưu Đãi Độc Quyền</h2>
+      <p>Đăng ký để nhận thông tin về các chương trình khuyến mãi đặc biệt và tour mới nhất</p>
+      <div class="newsletter-form">
+        <input type="email" id="newsletterEmail" placeholder="Email của bạn...">
+        <button onclick="newsletterSignup()">Đăng ký ngay</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="logo"><span class="logo-icon">✦</span><span class="logo-text">LuxTravel</span></div>
+        <p>Kiến tạo những hành trình đẳng cấp, mang lại trải nghiệm khó quên cho từng du khách.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">f</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">ig</a>
+          <a href="#" class="social-link">yt</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Tour phổ biến</h4>
+        <ul>
+          <li><a href="#">Tour Bali 5N4Đ</a></li>
+          <li><a href="#">Tour Paris - Rome</a></li>
+          <li><a href="#">Tour Nhật Bản Mùa Hoa Anh Đào</a></li>
+          <li><a href="#">Tour Santorini Lãng Mạn</a></li>
+          <li><a href="#">Tour Maldives Nghỉ Dưỡng</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Dịch vụ</h4>
+        <ul>
+          <li><a href="#">Tour trọn gói</a></li>
+          <li><a href="#">Tour theo yêu cầu</a></li>
+          <li><a href="#">Tour tuần trăng mật</a></li>
+          <li><a href="#">Tour gia đình</a></li>
+          <li><a href="#">Tour doanh nghiệp</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Liên hệ</h4>
+        <ul class="contact-list">
+          <li>📍 123 Nguyễn Huệ, Q1, TP.HCM</li>
+          <li>📞 1800 6868</li>
+          <li>✉️ info@luxtravel.vn</li>
+          <li>🕐 8:00 - 22:00, Thứ 2 - Chủ nhật</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 LuxTravel. Tất cả quyền được bảo lưu.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Chính sách bảo mật</a>
+        <a href="#">Điều khoản dịch vụ</a>
+        <a href="#">Cookie</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===================== TOURS PAGE ===================== -->
+<div id="page-tours" class="page">
+  <div class="page-hero-mini" style="background-image:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1600')">
+    <div class="overlay"></div>
+    <div class="page-hero-content">
+      <p class="section-eyebrow light">✦ Khám phá</p>
+      <h1>Tất Cả Tour</h1>
+      <p>Tìm kiếm hành trình hoàn hảo của bạn</p>
+    </div>
+  </div>
+  <section class="tours-page-section">
+    <div class="tours-filter">
+      <button class="filter-btn active" onclick="filterTours('all', this)">Tất cả</button>
+      <button class="filter-btn" onclick="filterTours('chau-a', this)">Châu Á</button>
+      <button class="filter-btn" onclick="filterTours('chau-au', this)">Châu Âu</button>
+      <button class="filter-btn" onclick="filterTours('dao', this)">Đảo nhiệt đới</button>
+    </div>
+    <div class="tours-grid all-tours" id="allTours"></div>
+  </section>
+  <div class="back-btn-wrap"><button class="btn-outline-dark" onclick="showPage('home')">← Quay lại trang chủ</button></div>
+</div>
+
+<!-- ===================== TOUR DETAIL PAGE ===================== -->
+<div id="page-detail" class="page">
+  <div id="tourDetailContent"></div>
+  <div class="back-btn-wrap"><button class="btn-outline-dark" onclick="showPage('tours')">← Quay lại danh sách</button></div>
+</div>
+
+<!-- ===================== DESTINATIONS PAGE ===================== -->
+<div id="page-destinations" class="page">
+  <div class="page-hero-mini" style="background-image:url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1600')">
+    <div class="overlay"></div>
+    <div class="page-hero-content">
+      <p class="section-eyebrow light">✦ Điểm đến</p>
+      <h1>Khám Phá Thế Giới</h1>
+      <p>Hơn 45 quốc gia đang chờ bạn</p>
+    </div>
+  </div>
+  <section class="tours-page-section">
+    <div class="dest-grid-full">
+      <div class="dest-card-full" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800')"><div class="dest-overlay"></div><div class="dest-info"><h3>Bali, Indonesia</h3><p>Thiên đường nhiệt đới • 24 tour</p></div></div>
+      <div class="dest-card-full" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800')"><div class="dest-overlay"></div><div class="dest-info"><h3>Paris, Pháp</h3><p>Thành phố ánh sáng • 18 tour</p></div></div>
+      <div class="dest-card-full" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800')"><div class="dest-overlay"></div><div class="dest-info"><h3>Tokyo, Nhật Bản</h3><p>Văn hóa đặc sắc • 31 tour</p></div></div>
+      <div class="dest-card-full" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1571406252241-db0280bd36cd?w=800')"><div class="dest-overlay"></div><div class="dest-info"><h3>Santorini, Hy Lạp</h3><p>Lãng mạn Địa Trung Hải • 15 tour</p></div></div>
+      <div class="dest-card-full" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800')"><div class="dest-overlay"></div><div class="dest-info"><h3>Maldives</h3><p>Thiên đường biển • 20 tour</p></div></div>
+      <div class="dest-card-full" onclick="showPage('tours')" style="--bg: url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800')"><div class="dest-overlay"></div><div class="dest-info"><h3>Hội An, Việt Nam</h3><p>Di sản văn hóa • 12 tour</p></div></div>
+    </div>
+  </section>
+  <div class="back-btn-wrap"><button class="btn-outline-dark" onclick="showPage('home')">← Quay lại trang chủ</button></div>
+</div>
+
+<!-- ===================== MODALS ===================== -->
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="modal-header">
+      <div class="logo"><span class="logo-icon">✦</span><span class="logo-text">LuxTravel</span></div>
+      <h2>Đăng nhập</h2>
+      <p>Chào mừng trở lại!</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="email@example.com">
+      </div>
+      <div class="form-group">
+        <label>Mật khẩu</label>
+        <input type="password" id="loginPassword" placeholder="••••••••">
+      </div>
+      <button class="btn-primary full-width" onclick="login()">Đăng nhập</button>
+      <p class="modal-switch">Chưa có tài khoản? <a href="#" onclick="switchModal('loginModal','registerModal')">Đăng ký ngay</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+    <div class="modal-header">
+      <div class="logo"><span class="logo-icon">✦</span><span class="logo-text">LuxTravel</span></div>
+      <h2>Đăng ký</h2>
+      <p>Tạo tài khoản để bắt đầu hành trình</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Họ tên</label>
+        <input type="text" id="registerName" placeholder="Nguyễn Văn A">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="registerEmail" placeholder="email@example.com">
+      </div>
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="tel" id="registerPhone" placeholder="0901 234 567">
+      </div>
+      <div class="form-group">
+        <label>Mật khẩu</label>
+        <input type="password" id="registerPassword" placeholder="••••••••">
+      </div>
+      <button class="btn-primary full-width" onclick="register()">Tạo tài khoản</button>
+      <p class="modal-switch">Đã có tài khoản? <a href="#" onclick="switchModal('registerModal','loginModal')">Đăng nhập</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal modal-large">
+    <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+    <div class="modal-header">
+      <h2>Đặt Tour</h2>
+      <p id="bookingTourName">Tên tour</p>
+    </div>
+    <div class="modal-body">
+      <div class="booking-step" id="bookingStep1">
+        <h3>Thông tin đặt chỗ</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ngày khởi hành</label>
+            <input type="date" id="bookingDate" value="2025-08-15">
+          </div>
+          <div class="form-group">
+            <label>Người lớn</label>
+            <div class="counter">
+              <button onclick="changeCount('adults',-1)">−</button>
+              <span id="adultsCount">2</span>
+              <button onclick="changeCount('adults',1)">+</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Trẻ em</label>
+            <div class="counter">
+              <button onclick="changeCount('children',-1)">−</button>
+              <span id="childrenCount">0</span>
+              <button onclick="changeCount('children',1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="price-summary">
+          <div class="price-row"><span>Người lớn × <span id="adultsDisplay">2</span></span><span id="adultsPrice">0 đ</span></div>
+          <div class="price-row"><span>Trẻ em × <span id="childrenDisplay">0</span></span><span id="childrenPrice">0 đ</span></div>
+          <div class="price-row total"><span>Tổng cộng</span><span id="totalPrice">0 đ</span></div>
+        </div>
+        <button class="btn-primary full-width" onclick="nextBookingStep()">Tiếp tục →</button>
+      </div>
+
+      <div class="booking-step hidden" id="bookingStep2">
+        <h3>Thông tin khách hàng</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Họ tên</label><input type="text" placeholder="Nguyễn Văn A" id="custName"></div>
+          <div class="form-group"><label>Email</label><input type="email" placeholder="email@example.com" id="custEmail"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Số điện thoại</label><input type="tel" placeholder="0901 234 567" id="custPhone"></div>
+          <div class="form-group"><label>CMND/CCCD</label><input type="text" placeholder="012345678901" id="custId"></div>
+        </div>
+        <div class="form-group full">
+          <label>Yêu cầu đặc biệt</label>
+          <textarea placeholder="Phòng đặc biệt, ăn chay, hỗ trợ người cao tuổi..." rows="3"></textarea>
+        </div>
+        <h3 style="margin-top:1.5rem">Phương thức thanh toán</h3>
+        <div class="payment-methods">
+          <label class="payment-option selected" id="pm1">
+            <input type="radio" name="payment" value="card" checked onchange="selectPM(this)">
+            <span class="pm-icon">💳</span>
+            <span>Thẻ tín dụng / Ghi nợ</span>
+          </label>
+          <label class="payment-option" id="pm2">
+            <input type="radio" name="payment" value="bank" onchange="selectPM(this)">
+            <span class="pm-icon">🏦</span>
+            <span>Chuyển khoản ngân hàng</span>
+          </label>
+          <label class="payment-option" id="pm3">
+            <input type="radio" name="payment" value="wallet" onchange="selectPM(this)">
+            <span class="pm-icon">📱</span>
+            <span>Ví điện tử (MoMo, ZaloPay)</span>
+          </label>
+        </div>
+        <div id="cardFields" class="card-fields">
+          <div class="form-row">
+            <div class="form-group full"><label>Số thẻ</label><input type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Hạn sử dụng</label><input type="text" placeholder="MM/YY" maxlength="5"></div>
+            <div class="form-group"><label>CVV</label><input type="text" placeholder="123" maxlength="3"></div>
+          </div>
+        </div>
+        <div class="price-summary">
+          <div class="price-row total"><span>Tổng thanh toán</span><span id="totalPrice2">0 đ</span></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-outline-dark" onclick="prevBookingStep()">← Quay lại</button>
+          <button class="btn-primary" onclick="confirmPayment()">Xác nhận thanh toán</button>
+        </div>
+      </div>
+
+      <div class="booking-step hidden" id="bookingStep3">
+        <div class="success-anim">
+          <div class="success-circle">
+            <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="25" fill="none"/><path fill="none" d="M14 27 L22 35 L38 17"/></svg>
+          </div>
+          <h2>Đặt tour thành công!</h2>
+          <p>Cảm ơn bạn đã tin tưởng LuxTravel.<br>Chúng tôi sẽ liên hệ xác nhận trong vòng 30 phút.</p>
+          <div class="booking-code">Mã đặt chỗ: <strong id="bookingCode"></strong></div>
+          <button class="btn-primary" onclick="closeModal('bookingModal');resetBooking()">Hoàn tất</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="shared.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

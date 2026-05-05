@@ -1,0 +1,51 @@
+@UserService_HostAddress = http://localhost:5080
+@AccessToken = replace-with-jwt
+@RefreshToken = replace-with-refresh-token
+
+POST {{UserService_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "Admin@123",
+  "role": "Admin"
+}
+
+###
+
+POST {{UserService_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "Admin@123"
+}
+
+###
+
+POST {{UserService_HostAddress}}/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{RefreshToken}}"
+}
+
+###
+
+GET {{UserService_HostAddress}}/api/auth/me
+Authorization: Bearer {{AccessToken}}
+
+###
+
+GET {{UserService_HostAddress}}/api/users
+Authorization: Bearer {{AccessToken}}
+
+###
+
+POST {{UserService_HostAddress}}/api/auth/revoke
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "refreshToken": "{{RefreshToken}}"
+}

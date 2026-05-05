@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Điểm Đến – LuxTravel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <nav class="nav-container">
+    <div class="logo">
+      <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:0.5rem">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">LuxTravel</span>
+      </a>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+      <li><a href="destinations.html" class="nav-link active">Điểm đến</a></li>
+      <li><a href="#" class="nav-link">Khuyến mãi</a></li>
+      <li><a href="#" class="nav-link">Giới thiệu</a></li>
+      <li><a href="#" class="nav-link">Liên hệ</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions">
+      <button class="btn-outline" onclick="openModal('loginModal')">Đăng nhập</button>
+      <button class="btn-primary" onclick="openModal('registerModal')">Đăng ký</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero-mini" style="background-image:url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1600')">
+  <div class="overlay"></div>
+  <div class="page-hero-content">
+    <p class="section-eyebrow light">✦ Điểm đến</p>
+    <h1>Khám Phá Thế Giới</h1>
+    <p>Hơn 45 quốc gia đang chờ bạn</p>
+  </div>
+</div>
+
+<!-- DESTINATIONS GRID -->
+<section class="tours-page-section">
+  <div class="dest-grid-full">
+    <div class="dest-card-full" onclick="location.href='tours.html'" style="--bg: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800')">
+      <div class="dest-overlay"></div>
+      <div class="dest-info"><h3>Bali, Indonesia</h3><p>Thiên đường nhiệt đới • 24 tour</p></div>
+    </div>
+    <div class="dest-card-full" onclick="location.href='tours.html'" style="--bg: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800')">
+      <div class="dest-overlay"></div>
+      <div class="dest-info"><h3>Paris, Pháp</h3><p>Thành phố ánh sáng • 18 tour</p></div>
+    </div>
+    <div class="dest-card-full" onclick="location.href='tours.html'" style="--bg: url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800')">
+      <div class="dest-overlay"></div>
+      <div class="dest-info"><h3>Tokyo, Nhật Bản</h3><p>Văn hóa đặc sắc • 31 tour</p></div>
+    </div>
+    <div class="dest-card-full" onclick="location.href='tours.html'" style="--bg: url('https://images.unsplash.com/photo-1571406252241-db0280bd36cd?w=800')">
+      <div class="dest-overlay"></div>
+      <div class="dest-info"><h3>Santorini, Hy Lạp</h3><p>Lãng mạn Địa Trung Hải • 15 tour</p></div>
+    </div>
+    <div class="dest-card-full" onclick="location.href='tours.html'" style="--bg: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800')">
+      <div class="dest-overlay"></div>
+      <div class="dest-info"><h3>Maldives</h3><p>Thiên đường biển • 20 tour</p></div>
+    </div>
+    <div class="dest-card-full" onclick="location.href='tours.html'" style="--bg: url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800')">
+      <div class="dest-overlay"></div>
+      <div class="dest-info"><h3>Hội An, Việt Nam</h3><p>Di sản văn hóa • 12 tour</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="back-btn-wrap">
+  <a href="index.html" class="btn-outline-dark">← Quay lại trang chủ</a>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col footer-brand">
+      <div class="logo"><span class="logo-icon">✦</span><span class="logo-text">LuxTravel</span></div>
+      <p>Kiến tạo những hành trình đẳng cấp, mang lại trải nghiệm khó quên cho từng du khách.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Liên hệ</h4>
+      <ul class="contact-list">
+        <li>📍 123 Nguyễn Huệ, Q1, TP.HCM</li>
+        <li>📞 1800 6868</li>
+        <li>✉️ info@luxtravel.vn</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 LuxTravel. Tất cả quyền được bảo lưu.</p>
+  </div>
+</footer>
+
+<!-- AUTH MODALS -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="modal-header">
+      <div class="logo"><span class="logo-icon">✦</span><span class="logo-text">LuxTravel</span></div>
+      <h2>Đăng nhập</h2><p>Chào mừng trở lại!</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="email@example.com"></div>
+      <div class="form-group"><label>Mật khẩu</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
+      <button class="btn-primary full-width" onclick="login()">Đăng nhập</button>
+      <p class="modal-switch">Chưa có tài khoản? <a href="#" onclick="switchModal('loginModal','registerModal')">Đăng ký ngay</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+    <div class="modal-header">
+      <div class="logo"><span class="logo-icon">✦</span><span class="logo-text">LuxTravel</span></div>
+      <h2>Đăng ký</h2><p>Tạo tài khoản để bắt đầu hành trình</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>Họ tên</label><input type="text" id="registerName" placeholder="Nguyễn Văn A"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="registerEmail" placeholder="email@example.com"></div>
+      <div class="form-group"><label>Số điện thoại</label><input type="tel" id="registerPhone" placeholder="0901 234 567"></div>
+      <div class="form-group"><label>Mật khẩu</label><input type="password" id="registerPassword" placeholder="••••••••"></div>
+      <button class="btn-primary full-width" onclick="register()">Tạo tài khoản</button>
+      <p class="modal-switch">Đã có tài khoản? <a href="#" onclick="switchModal('registerModal','loginModal')">Đăng nhập</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="shared.js"></script>
+<script src="destinations.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\bin\Debug\net9.0\Tour.Application.deps.json
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\bin\Debug\net9.0\Tour.Application.dll
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\bin\Debug\net9.0\Tour.Application.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\bin\Debug\net9.0\BuildingBlocks.dll
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\bin\Debug\net9.0\Tour.Domain.dll
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\bin\Debug\net9.0\Tour.Domain.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\bin\Debug\net9.0\BuildingBlocks.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\Tour.Application.csproj.AssemblyReference.cache
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\Tour.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\Tour.Application.AssemblyInfoInputs.cache
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\Tour.Application.AssemblyInfo.cs
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\Tour.Application.csproj.CoreCompileInputs.cache
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\Tour.App.9845FBB2.Up2Date
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\Tour.Application.dll
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\refint\Tour.Application.dll
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\Tour.Application.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Tour\Tour.Application\obj\Debug\net9.0\ref\Tour.Application.dll

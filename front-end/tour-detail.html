@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi Tiết Tour – LuxTravel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <nav class="nav-container">
+    <div class="logo">
+      <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:0.5rem">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">LuxTravel</span>
+      </a>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+      <li><a href="destinations.html" class="nav-link">Điểm đến</a></li>
+      <li><a href="#" class="nav-link">Khuyến mãi</a></li>
+      <li><a href="#" class="nav-link">Giới thiệu</a></li>
+      <li><a href="#" class="nav-link">Liên hệ</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions">
+      <button class="btn-outline" onclick="openModal('loginModal')">Đăng nhập</button>
+      <button class="btn-primary" onclick="openModal('registerModal')">Đăng ký</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- TOUR DETAIL CONTENT (rendered by JS) -->
+<div id="tourDetailContent">
+  <div style="text-align:center;padding:6rem 2rem;color:var(--text-muted)">Đang tải thông tin tour...</div>
+</div>
+
+<div class="back-btn-wrap">
+  <a href="tours.html" class="btn-outline-dark">← Quay lại danh sách</a>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal modal-large">
+    <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+    <div class="modal-header">
+      <h2>Đặt Tour</h2>
+      <p id="bookingTourName">Tên tour</p>
+    </div>
+    <div class="modal-body">
+      <div class="booking-step" id="bookingStep1">
+        <h3>Thông tin đặt chỗ</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ngày khởi hành</label>
+            <input type="date" id="bookingDate">
+          </div>
+          <div class="form-group">
+            <label>Người lớn</label>
+            <div class="counter">
+              <button onclick="changeCount('adults',-1)">−</button>
+              <span id="adultsCount">2</span>
+              <button onclick="changeCount('adults',1)">+</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Trẻ em</label>
+            <div class="counter">
+              <button onclick="changeCount('children',-1)">−</button>
+              <span id="childrenCount">0</span>
+              <button onclick="changeCount('children',1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="price-summary">
+          <div class="price-row"><span>Người lớn × <span id="adultsDisplay">2</span></span><span id="adultsPrice">0 đ</span></div>
+          <div class="price-row"><span>Trẻ em × <span id="childrenDisplay">0</span></span><span id="childrenPrice">0 đ</span></div>
+          <div class="price-row total"><span>Tổng cộng</span><span id="totalPrice">0 đ</span></div>
+        </div>
+        <button class="btn-primary full-width" onclick="nextBookingStep()">Tiếp tục →</button>
+      </div>
+
+      <div class="booking-step hidden" id="bookingStep2">
+        <h3>Thông tin khách hàng</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Họ tên</label><input type="text" placeholder="Nguyễn Văn A" id="custName"></div>
+          <div class="form-group"><label>Email</label><input type="email" placeholder="email@example.com" id="custEmail"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Số điện thoại</label><input type="tel" placeholder="0901 234 567" id="custPhone"></div>
+          <div class="form-group"><label>CMND/CCCD</label><input type="text" placeholder="012345678901" id="custId"></div>
+        </div>
+        <div class="form-group full">
+          <label>Yêu cầu đặc biệt</label>
+          <textarea placeholder="Phòng đặc biệt, ăn chay, hỗ trợ người cao tuổi..." rows="3"></textarea>
+        </div>
+        <h3 style="margin-top:1.5rem">Phương thức thanh toán</h3>
+        <div class="payment-methods">
+          <label class="payment-option selected" id="pm1">
+            <input type="radio" name="payment" value="card" checked onchange="selectPM(this)">
+            <span class="pm-icon">💳</span>
+            <span>Thẻ tín dụng / Ghi nợ</span>
+          </label>
+          <label class="payment-option" id="pm2">
+            <input type="radio" name="payment" value="bank" onchange="selectPM(this)">
+            <span class="pm-icon">🏦</span>
+            <span>Chuyển khoản ngân hàng</span>
+          </label>
+          <label class="payment-option" id="pm3">
+            <input type="radio" name="payment" value="wallet" onchange="selectPM(this)">
+            <span class="pm-icon">📱</span>
+            <span>Ví điện tử (MoMo, ZaloPay)</span>
+          </label>
+        </div>
+        <div id="cardFields" class="card-fields">
+          <div class="form-row">
+            <div class="form-group full"><label>Số thẻ</label><input type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Hạn sử dụng</label><input type="text" placeholder="MM/YY" maxlength="5"></div>
+            <div class="form-group"><label>CVV</label><input type="text" placeholder="123" maxlength="3"></div>
+          </div>
+        </div>
+        <div class="price-summary">
+          <div class="price-row total"><span>Tổng thanh toán</span><span id="totalPrice2">0 đ</span></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-outline-dark" onclick="prevBookingStep()">← Quay lại</button>
+          <button class="btn-primary" onclick="confirmPayment()">Xác nhận thanh toán</button>
+        </div>
+      </div>
+
+      <div class="booking-step hidden" id="bookingStep3">
+        <div class="success-anim">
+          <div class="success-circle">
+            <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="25" fill="none"/><path fill="none" d="M14 27 L22 35 L38 17"/></svg>
+          </div>
+          <h2>Đặt tour thành công!</h2>
+          <p>Cảm ơn bạn đã tin tưởng LuxTravel.<br>Chúng tôi sẽ liên hệ xác nhận trong vòng 30 phút.</p>
+          <div class="booking-code">Mã đặt chỗ: <strong id="bookingCode"></strong></div>
+          <button class="btn-primary" onclick="closeModal('bookingModal');resetBooking()">Hoàn tất</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODALS -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="modal-header">
+      <div class="logo"><span class="logo-icon">✦</span><span class="logo-text">LuxTravel</span></div>
+      <h2>Đăng nhập</h2>
+      <p>Chào mừng trở lại!</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="email@example.com">
+      </div>
+      <div class="form-group">
+        <label>Mật khẩu</label>
+        <input type="password" id="loginPassword" placeholder="••••••••">
+      </div>
+      <button class="btn-primary full-width" onclick="login()">Đăng nhập</button>
+      <p class="modal-switch">Chưa có tài khoản? <a href="#" onclick="switchModal('loginModal','registerModal')">Đăng ký ngay</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+    <div class="modal-header">
+      <div class="logo"><span class="logo-icon">✦</span><span class="logo-text">LuxTravel</span></div>
+      <h2>Đăng ký</h2>
+      <p>Tạo tài khoản để bắt đầu hành trình</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Họ tên</label>
+        <input type="text" id="registerName" placeholder="Nguyễn Văn A">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="registerEmail" placeholder="email@example.com">
+      </div>
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="tel" id="registerPhone" placeholder="0901 234 567">
+      </div>
+      <div class="form-group">
+        <label>Mật khẩu</label>
+        <input type="password" id="registerPassword" placeholder="••••••••">
+      </div>
+      <button class="btn-primary full-width" onclick="register()">Tạo tài khoản</button>
+      <p class="modal-switch">Đã có tài khoản? <a href="#" onclick="switchModal('registerModal','loginModal')">Đăng nhập</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="shared.js"></script>
+<script src="tour-detail.js"></script>
+</body>
+</html>

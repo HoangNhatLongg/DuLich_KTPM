@@ -1,0 +1,11 @@
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\bin\Debug\net9.0\Booking.Domain.deps.json
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\bin\Debug\net9.0\Booking.Domain.dll
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\bin\Debug\net9.0\Booking.Domain.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\obj\Debug\net9.0\Booking.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\obj\Debug\net9.0\Booking.Domain.AssemblyInfoInputs.cache
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\obj\Debug\net9.0\Booking.Domain.AssemblyInfo.cs
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\obj\Debug\net9.0\Booking.Domain.csproj.CoreCompileInputs.cache
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\obj\Debug\net9.0\Booking.Domain.dll
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\obj\Debug\net9.0\refint\Booking.Domain.dll
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\obj\Debug\net9.0\Booking.Domain.pdb
+D:\KienTrucPhanMem\TieuLuan\services\Booking\Booking.Domain\obj\Debug\net9.0\ref\Booking.Domain.dll

@@ -48,7 +48,10 @@ public sealed class TourService(
                 Guid.NewGuid(),
                 tour.Id,
                 itineraryRequest.DayNumber,
-                itineraryRequest.Description.Trim());
+                itineraryRequest.Morning?.Trim(),
+                itineraryRequest.Noon?.Trim(),
+                itineraryRequest.Afternoon?.Trim(),
+                itineraryRequest.Evening?.Trim());
 
             tour.AddItinerary(itinerary);
         }
@@ -100,7 +103,7 @@ public sealed class TourService(
         var tour = await GetTourWithItinerariesAsync(tourId, cancellationToken);
         await EnsureDayNumberUniqueAsync(tourId, request.DayNumber, null, cancellationToken);
 
-        var itinerary = new Itinerary(Guid.NewGuid(), tourId, request.DayNumber, request.Description.Trim());
+        var itinerary = new Itinerary(Guid.NewGuid(), tourId, request.DayNumber, request.Morning?.Trim(), request.Noon?.Trim(), request.Afternoon?.Trim(), request.Evening?.Trim());
         tour.AddItinerary(itinerary);
 
         tourRepository.Update(tour);
@@ -119,7 +122,7 @@ public sealed class TourService(
 
         await EnsureDayNumberUniqueAsync(tourId, request.DayNumber, itineraryId, cancellationToken);
 
-        itinerary.Update(request.DayNumber, request.Description.Trim());
+        itinerary.Update(request.DayNumber, request.Morning?.Trim(), request.Noon?.Trim(), request.Afternoon?.Trim(), request.Evening?.Trim());
         await tourRepository.SaveChangesAsync(cancellationToken);
 
         return MapItinerary(itinerary);
@@ -175,7 +178,9 @@ public sealed class TourService(
             tour.Description,
             tour.Price,
             tour.AvailableSlots,
-            tour.Itineraries.Count);
+            tour.Itineraries.Count,
+            tour.CreatedAtUtc,
+            tour.UpdatedAtUtc);
     }
 
     private static TourDetailResponse MapDetail(Tour.Domain.Entities.Tour tour)
@@ -194,6 +199,6 @@ public sealed class TourService(
 
     private static ItineraryResponse MapItinerary(Itinerary itinerary)
     {
-        return new ItineraryResponse(itinerary.Id, itinerary.DayNumber, itinerary.Description);
+        return new ItineraryResponse(itinerary.Id, itinerary.DayNumber, itinerary.Morning, itinerary.Noon, itinerary.Afternoon, itinerary.Evening);
     }
 }

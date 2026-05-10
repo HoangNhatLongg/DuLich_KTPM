@@ -21,26 +21,18 @@ public class PaymentManager : IPaymentService
 
     public async Task<PaymentResponseDto> ProcessPaymentAsync(PaymentRequestDto request)
     {
-        // 1. Create a pending transaction
-        var transaction = new PaymentTransaction
-        {
-            Id = Guid.NewGuid(),
-            BookingId = request.BookingId,
-            Amount = request.Amount,
-            Method = request.Method,
-            Status = PaymentStatus.Pending,
-            CreatedAt = DateTime.UtcNow
-        };
-
-        // 2. Generate Mock Payment Details based on the method
+        // 1. Generate Mock Payment Details based on the method (need Id first — use temp)
+        var tempId = Guid.NewGuid();
         string mockDetails = request.Method switch
         {
-            PaymentMethod.BankTransfer => $"STK: 123456789 - Ngan hang VCB - Noi dung: CK {transaction.Id}",
-            PaymentMethod.VNPay => $"https://vnpay.mock.local/pay?id={transaction.Id}&amount={request.Amount}",
-            PaymentMethod.Momo => $"https://momo.mock.local/pay?id={transaction.Id}&amount={request.Amount}",
+            PaymentMethod.BankTransfer => $"STK: 123456789 - Ngan hang VCB - Noi dung: CK {tempId}",
+            PaymentMethod.VNPay => $"https://vnpay.mock.local/pay?id={tempId}&amount={request.Amount}",
+            PaymentMethod.Momo => $"https://momo.mock.local/pay?id={tempId}&amount={request.Amount}",
             _ => "Unknown payment method"
         };
-        transaction.PaymentDetails = mockDetails;
+
+        // 2. Create a pending transaction via factory method
+        var transaction = PaymentTransaction.Create(request.BookingId, request.Amount, request.Method, mockDetails);
 
         // 3. Save to Db
         await _repository.AddAsync(transaction);
@@ -61,9 +53,8 @@ public class PaymentManager : IPaymentService
         if (transaction == null || transaction.Status == PaymentStatus.Success)
             return false;
 
-        // 1. Update status
-        transaction.Status = PaymentStatus.Success;
-        transaction.ProcessedAt = DateTime.UtcNow;
+        // 1. Update status via domain method
+        transaction.MarkAsCompleted();
         await _repository.UpdateAsync(transaction);
 
         // 2. Publish PaymentCompletedEvent

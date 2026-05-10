@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tour.API.Models;
 using Tour.Application.DTOs;
@@ -7,9 +8,11 @@ namespace Tour.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = "Admin")]
 public sealed class ToursController(ITourService tourService) : ControllerBase
 {
     [HttpGet]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<TourSummaryResponse>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
@@ -18,6 +21,7 @@ public sealed class ToursController(ITourService tourService) : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<TourDetailResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
@@ -52,6 +56,7 @@ public sealed class ToursController(ITourService tourService) : ControllerBase
     }
 
     [HttpGet("{id:guid}/itineraries")]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<ItineraryResponse>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetItineraries(Guid id, CancellationToken cancellationToken)
     {
@@ -84,6 +89,7 @@ public sealed class ToursController(ITourService tourService) : ControllerBase
     }
 
     [HttpGet("{id:guid}/slots/availability")]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<SlotAvailabilityResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> CheckAvailability(Guid id, [FromQuery] int requestedSlots, CancellationToken cancellationToken)
     {

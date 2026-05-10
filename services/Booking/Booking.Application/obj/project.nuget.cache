@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Q6VwbTUcS8E=",
+  "dgSpecHash": "9joFsoKtE5w=",
   "success": true,
-  "projectFilePath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Application\\Booking.Application.csproj",
+  "projectFilePath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Application\\Booking.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thanh\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",

@@ -19,6 +19,21 @@ public sealed class BookingConfiguration : IEntityTypeConfiguration<BookingEntit
         builder.Property(x => x.TourId)
             .IsRequired();
 
+        builder.Property(x => x.TourName)
+            .HasMaxLength(256)
+            .IsRequired();
+
+        builder.Property(x => x.CustomerEmail)
+            .HasMaxLength(256)
+            .IsRequired();
+
+        builder.Property(x => x.TotalPrice)
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(x => x.DepartureDate)
+            .IsRequired(false);
+
         builder.Property(x => x.Status)
             .HasConversion(
                 status => status.ToString(),

@@ -3180,11 +3180,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.API\\Staff.API.csproj",
+      "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.API\\Staff.API.csproj",
       "projectName": "Staff.API",
-      "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.API\\Staff.API.csproj",
+      "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.API\\Staff.API.csproj",
       "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-      "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.API\\obj\\",
+      "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3205,11 +3205,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.Application\\Staff.Application.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.Application\\Staff.Application.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.Application\\Staff.Application.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.Application\\Staff.Application.csproj"
             },
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.Infrastructure\\Staff.Infrastructure.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.Infrastructure\\Staff.Infrastructure.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.Infrastructure\\Staff.Infrastructure.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.Infrastructure\\Staff.Infrastructure.csproj"
             }
           }
         }

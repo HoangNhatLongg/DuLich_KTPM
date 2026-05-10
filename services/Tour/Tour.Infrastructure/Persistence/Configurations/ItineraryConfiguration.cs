@@ -15,9 +15,17 @@ public sealed class ItineraryConfiguration : IEntityTypeConfiguration<Itinerary>
         builder.Property(x => x.DayNumber)
             .IsRequired();
 
-        builder.Property(x => x.Description)
-            .HasMaxLength(1000)
-            .IsRequired();
+        builder.Property(x => x.Morning)
+            .HasMaxLength(500);
+
+        builder.Property(x => x.Noon)
+            .HasMaxLength(500);
+
+        builder.Property(x => x.Afternoon)
+            .HasMaxLength(500);
+
+        builder.Property(x => x.Evening)
+            .HasMaxLength(500);
 
         builder.HasIndex(x => new { x.TourId, x.DayNumber })
             .IsUnique();

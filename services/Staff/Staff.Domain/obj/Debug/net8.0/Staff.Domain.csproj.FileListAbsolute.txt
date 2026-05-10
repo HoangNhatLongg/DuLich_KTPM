@@ -9,3 +9,15 @@ d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Domain\obj\Debug\net8.0\Staff.D
 d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Domain\obj\Debug\net8.0\refint\Staff.Domain.dll
 d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Domain\obj\Debug\net8.0\Staff.Domain.pdb
 d:\KienTrucPhanMem\TieuLuan\services\Staff\Staff.Domain\obj\Debug\net8.0\ref\Staff.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\bin\Debug\net8.0\Staff.Domain.deps.json
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\bin\Debug\net8.0\Staff.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\bin\Debug\net8.0\Staff.Domain.pdb
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\obj\Debug\net8.0\Staff.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\obj\Debug\net8.0\Staff.Domain.AssemblyInfoInputs.cache
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\obj\Debug\net8.0\Staff.Domain.AssemblyInfo.cs
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\obj\Debug\net8.0\Staff.Domain.csproj.CoreCompileInputs.cache
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\obj\Debug\net8.0\Staff.Domain.sourcelink.json
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\obj\Debug\net8.0\Staff.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\obj\Debug\net8.0\refint\Staff.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\obj\Debug\net8.0\Staff.Domain.pdb
+C:\KTTKPM\DuLich_KTPM\services\Staff\Staff.Domain\obj\Debug\net8.0\ref\Staff.Domain.dll

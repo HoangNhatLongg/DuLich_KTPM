@@ -52,16 +52,8 @@ public class StaffManager : IStaffService
 
     public async Task<StaffDto> CreateStaffAsync(CreateStaffDto dto)
     {
-        var entity = new StaffMember
-        {
-            Id = Guid.NewGuid(),
-            FullName = dto.FullName,
-            Email = dto.Email,
-            Phone = dto.Phone,
-            Position = dto.Position,
-            Status = StaffStatus.Active,
-            CreatedAt = DateTime.UtcNow
-        };
+        // Use factory method instead of object initializer
+        var entity = StaffMember.Create(dto.FullName, dto.Email, dto.Phone, dto.Position);
 
         await _repository.AddAsync(entity);
 
@@ -82,11 +74,9 @@ public class StaffManager : IStaffService
         var existing = await _repository.GetByIdAsync(id);
         if (existing == null) return false;
 
-        existing.FullName = dto.FullName;
-        existing.Email = dto.Email;
-        existing.Phone = dto.Phone;
-        existing.Position = dto.Position;
-        existing.Status = dto.Status;
+        // Use domain methods instead of setting properties directly
+        existing.UpdateProfile(dto.FullName, dto.Email, dto.Phone, dto.Position);
+        existing.ChangeStatus(dto.Status);
 
         await _repository.UpdateAsync(existing);
         return true;

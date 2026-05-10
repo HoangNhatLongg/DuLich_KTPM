@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Domain\\Notification.Domain.csproj",
+      "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Domain\\Notification.Domain.csproj",
       "projectName": "Notification.Domain",
-      "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Domain\\Notification.Domain.csproj",
+      "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Domain\\Notification.Domain.csproj",
       "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-      "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Domain\\obj\\",
+      "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

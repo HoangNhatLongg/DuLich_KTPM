@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yOHdSQ0/Ccg=",
+  "dgSpecHash": "IF3FX1Fo6OM=",
   "success": true,
-  "projectFilePath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Tests\\Report.Tests.csproj",
+  "projectFilePath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Tests\\Report.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thanh\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\dapper\\2.1.28\\dapper.2.1.28.nupkg.sha512",

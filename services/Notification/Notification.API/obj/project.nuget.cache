@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "N6CLqNHWEJ0=",
+  "dgSpecHash": "jx8wo6fx1BQ=",
   "success": true,
-  "projectFilePath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.API\\Notification.API.csproj",
+  "projectFilePath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.API\\Notification.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.8\\microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"

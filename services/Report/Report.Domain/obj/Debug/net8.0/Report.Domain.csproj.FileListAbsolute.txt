@@ -9,3 +9,15 @@ d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\Repor
 d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\refint\Report.Domain.dll
 d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.pdb
 d:\KienTrucPhanMem\TieuLuan\services\Report\Report.Domain\obj\Debug\net8.0\ref\Report.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\bin\Debug\net8.0\Report.Domain.deps.json
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\bin\Debug\net8.0\Report.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\bin\Debug\net8.0\Report.Domain.pdb
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.AssemblyInfoInputs.cache
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.AssemblyInfo.cs
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.csproj.CoreCompileInputs.cache
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.sourcelink.json
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\obj\Debug\net8.0\refint\Report.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\obj\Debug\net8.0\Report.Domain.pdb
+C:\KTTKPM\DuLich_KTPM\services\Report\Report.Domain\obj\Debug\net8.0\ref\Report.Domain.dll

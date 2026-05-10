@@ -49,11 +49,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Application\\Notification.Application.csproj",
+      "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Application\\Notification.Application.csproj",
       "projectName": "Notification.Application",
-      "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Application\\Notification.Application.csproj",
+      "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Application\\Notification.Application.csproj",
       "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-      "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Application\\obj\\",
+      "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -74,11 +74,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
             },
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Domain\\Notification.Domain.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Domain\\Notification.Domain.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Domain\\Notification.Domain.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Domain\\Notification.Domain.csproj"
             }
           }
         }

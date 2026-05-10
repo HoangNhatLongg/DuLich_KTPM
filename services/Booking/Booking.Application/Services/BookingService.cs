@@ -22,6 +22,12 @@ public sealed class BookingService(
         return bookings.Select(MapResponse).ToList();
     }
 
+    public async Task<IReadOnlyList<BookingResponse>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var bookings = await bookingRepository.GetByUserIdAsync(userId, cancellationToken);
+        return bookings.Select(MapResponse).ToList();
+    }
+
     public async Task<BookingResponse> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var booking = await GetBookingAsync(id, cancellationToken);
@@ -51,6 +57,10 @@ public sealed class BookingService(
             Guid.NewGuid(),
             request.UserId,
             request.TourId,
+            request.TourName,
+            request.CustomerEmail,
+            request.TotalPrice,
+            request.DepartureDate,
             BookingStatus.Pending,
             DateTime.UtcNow);
 
@@ -60,10 +70,11 @@ public sealed class BookingService(
         await bookingEventPublisher.PublishBookingCreatedAsync(
             new BookingCreatedEvent(
                 booking.Id,
-                booking.UserId,
                 booking.TourId,
-                booking.Status.ToString(),
-                booking.CreatedAtUtc),
+                request.TourName,
+                request.CustomerEmail,
+                request.TotalPrice,
+                booking.Status.ToString()),
             cancellationToken);
 
         return MapResponse(booking);
@@ -118,6 +129,10 @@ public sealed class BookingService(
             booking.Id,
             booking.UserId,
             booking.TourId,
+            booking.TourName,
+            booking.CustomerEmail,
+            booking.TotalPrice,
+            booking.DepartureDate,
             booking.Status.ToString(),
             booking.CreatedAtUtc);
     }

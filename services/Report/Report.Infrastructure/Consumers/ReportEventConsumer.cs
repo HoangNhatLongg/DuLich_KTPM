@@ -22,8 +22,10 @@ public class ReportEventConsumer : BackgroundService
     private readonly ILogger<ReportEventConsumer> _logger;
     private readonly IConfiguration _configuration;
     private readonly IServiceScopeFactory _scopeFactory;
-    private IConnection _connection = null!;
-    private IModel _channel = null!;
+
+    // RabbitMQ resources — initialized lazily in ExecuteAsync with retry
+    private IConnection? _connection;
+    private IModel? _channel;
 
     public ReportEventConsumer(
         ILogger<ReportEventConsumer> logger,
@@ -33,10 +35,10 @@ public class ReportEventConsumer : BackgroundService
         _logger = logger;
         _configuration = configuration;
         _scopeFactory = scopeFactory;
-        InitializeRabbitMQ();
+        // NOTE: Do NOT call InitializeRabbitMQ() here — RabbitMQ may not be ready at startup.
     }
 
-    private void InitializeRabbitMQ()
+    private bool TryInitializeRabbitMQ()
     {
         var factory = new ConnectionFactory
         {
@@ -58,16 +60,38 @@ public class ReportEventConsumer : BackgroundService
             _channel.QueueBind(queue: queueName, exchange: "travel_event_bus", routingKey: "PaymentCompletedEvent");
 
             _logger.LogInformation("[ReportService] Connected to RabbitMQ. Listening on 'report_queue'...");
+            return true;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "[ReportService] Failed to initialize RabbitMQ connection.");
+            _logger.LogWarning(ex, "[ReportService] Failed to connect to RabbitMQ. Will retry...");
+            return false;
         }
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (_channel == null) return Task.CompletedTask;
+        // Retry loop — wait until RabbitMQ is available
+        const int maxRetries = 10;
+        const int retryDelaySeconds = 5;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        {
+            if (stoppingToken.IsCancellationRequested)
+                return;
+
+            if (TryInitializeRabbitMQ())
+                break;
+
+            _logger.LogInformation("[ReportService] RabbitMQ retry attempt {Attempt}/{Max}. Waiting {Delay}s...", attempt, maxRetries, retryDelaySeconds);
+            await Task.Delay(TimeSpan.FromSeconds(retryDelaySeconds), stoppingToken);
+        }
+
+        if (_channel == null)
+        {
+            _logger.LogError("[ReportService] Failed to connect to RabbitMQ after all retries. Report Consumer will not process events.");
+            return;
+        }
 
         var consumer = new EventingBasicConsumer(_channel);
         consumer.Received += async (_, ea) =>
@@ -121,7 +145,9 @@ public class ReportEventConsumer : BackgroundService
         };
 
         _channel.BasicConsume(queue: "report_queue", autoAck: false, consumer: consumer);
-        return Task.CompletedTask;
+
+        // Keep the worker alive until cancellation
+        await Task.Delay(Timeout.Infinite, stoppingToken);
     }
 
     public override void Dispose()

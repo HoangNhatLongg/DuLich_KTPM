@@ -4,8 +4,11 @@
 -- =====================================================
 
 CREATE DATABASE "UserServiceDb";
-CREATE DATABASE "TourDb";
-CREATE DATABASE "BookingDb";
+CREATE DATABASE "TourServiceDb";
+CREATE DATABASE "BookingServiceDb";
 CREATE DATABASE "PaymentDb";
 CREATE DATABASE "StaffDb";
 CREATE DATABASE "ReportDb";
+
+-- Favorites table for storing user's favorite tours
+-- Connected to BookingServiceDb

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bNfeqm1D+48=",
+  "dgSpecHash": "MGqIdWppE4E=",
   "success": true,
-  "projectFilePath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Tests\\Notification.Tests.csproj",
+  "projectFilePath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Tests\\Notification.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thanh\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.8\\microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",

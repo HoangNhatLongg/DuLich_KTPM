@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Tour\\Tour.Domain\\Tour.Domain.csproj": {}
+    "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Tour\\Tour.Domain\\Tour.Domain.csproj": {}
   },
   "projects": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Tour\\Tour.Domain\\Tour.Domain.csproj": {
+    "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Tour\\Tour.Domain\\Tour.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Tour\\Tour.Domain\\Tour.Domain.csproj",
+        "projectUniqueName": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Tour\\Tour.Domain\\Tour.Domain.csproj",
         "projectName": "Tour.Domain",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Tour\\Tour.Domain\\Tour.Domain.csproj",
+        "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Tour\\Tour.Domain\\Tour.Domain.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Tour\\Tour.Domain\\obj\\",
+        "outputPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Tour\\Tour.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

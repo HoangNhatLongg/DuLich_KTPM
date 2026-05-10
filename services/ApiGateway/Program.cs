@@ -6,6 +6,17 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 // 1. Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -51,6 +62,8 @@ var app = builder.Build();
 // Configure Pipeline
 app.UseRouting();
 
+app.UseCors("AllowAll");
+
 app.UseRateLimiter();
 
 app.UseAuthentication();
@@ -59,3 +72,4 @@ app.UseAuthorization();
 app.MapReverseProxy();
 
 app.Run();
+

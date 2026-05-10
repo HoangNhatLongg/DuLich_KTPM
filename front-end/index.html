@@ -13,16 +13,13 @@
 <!-- HEADER -->
 <header id="header">
   <nav class="nav-container">
-    <div class="logo">
+    <div class="logo" onclick="showPage('home')">
       <span class="logo-icon">✦</span>
       <span class="logo-text">LuxTravel</span>
     </div>
     <ul class="nav-links" id="navLinks">
       <li><a href="#" onclick="showPage('home')" class="nav-link active">Trang chủ</a></li>
       <li><a href="#" onclick="showPage('destinations')" class="nav-link">Điểm đến</a></li>
-      <li><a href="#" class="nav-link">Khuyến mãi</a></li>
-      <li><a href="#" class="nav-link">Giới thiệu</a></li>
-      <li><a href="#" class="nav-link">Liên hệ</a></li>
     </ul>
     <div class="nav-actions" id="navActions">
       <button class="btn-outline" onclick="openModal('loginModal')">Đăng nhập</button>
@@ -508,6 +505,19 @@
         <div class="btn-row">
           <button class="btn-outline-dark" onclick="prevBookingStep()">← Quay lại</button>
           <button class="btn-primary" onclick="confirmPayment()">Xác nhận thanh toán</button>
+        </div>
+      </div>
+
+      <div class="booking-step hidden" id="bookingStep2_5" style="text-align: center;">
+        <h3>Thông tin thanh toán</h3>
+        <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Vui lòng hoàn tất thanh toán để hệ thống xác nhận.</p>
+        
+        <div id="paymentDetailsContainer" style="background: var(--bg-alt); padding: 2rem; border-radius: var(--radius-md); margin-bottom: 2rem;">
+          <!-- Content will be injected here by JS -->
+        </div>
+
+        <div class="btn-row" style="justify-content: center;">
+          <button class="btn-primary" onclick="finalizePayment()" id="btnFinalizePayment">Tôi đã hoàn tất thanh toán</button>
         </div>
       </div>
 

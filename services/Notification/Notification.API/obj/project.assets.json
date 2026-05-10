@@ -151,11 +151,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.API\\Notification.API.csproj",
+      "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.API\\Notification.API.csproj",
       "projectName": "Notification.API",
-      "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.API\\Notification.API.csproj",
+      "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.API\\Notification.API.csproj",
       "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-      "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.API\\obj\\",
+      "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -176,11 +176,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Application\\Notification.Application.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Application\\Notification.Application.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Application\\Notification.Application.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Application\\Notification.Application.csproj"
             },
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Infrastructure\\Notification.Infrastructure.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Infrastructure\\Notification.Infrastructure.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Infrastructure\\Notification.Infrastructure.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Infrastructure\\Notification.Infrastructure.csproj"
             }
           }
         }

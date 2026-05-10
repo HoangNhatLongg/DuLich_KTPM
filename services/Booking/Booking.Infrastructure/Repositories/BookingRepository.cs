@@ -14,6 +14,14 @@ public sealed class BookingRepository(BookingDbContext dbContext) : IBookingRepo
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IReadOnlyList<BookingEntity>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Bookings
+            .Where(x => x.UserId == userId)
+            .OrderByDescending(x => x.CreatedAtUtc)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<BookingEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await dbContext.Bookings.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);

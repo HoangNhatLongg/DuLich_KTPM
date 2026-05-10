@@ -34,6 +34,7 @@ public static class DependencyInjection
             .AddPolicyHandler(GetHttpRetryPolicy());
 
         services.AddScoped<IBookingRepository, BookingRepository>();
+        services.AddScoped<IFavoriteTourRepository, FavoriteTourRepository>();
         services.AddScoped<IBookingEventPublisher, RabbitMqBookingEventPublisher>();
         services.AddHostedService<PaymentCompletedConsumerService>();
 

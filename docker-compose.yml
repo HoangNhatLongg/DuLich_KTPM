@@ -65,9 +65,9 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__PostgreSQL: "Host=postgres;Port=5432;Database=UserServiceDb;Username=postgres;Password=postgres"
-      Jwt__Issuer: "TravelCompany_ApiGateway"
-      Jwt__Audience: "TravelCompany_Users"
-      Jwt__SecretKey: "ThisIsAVerySecretKeyForJwtAuthenticationInTravelCompany!"
+      JwtSettings__Issuer: "TravelCompany_ApiGateway"
+      JwtSettings__Audience: "TravelCompany_Users"
+      JwtSettings__SecretKey: "ThisIsAVerySecretKeyForJwtAuthenticationInTravelCompany!"
     ports:
       - "5001:8080"
     networks:
@@ -114,6 +114,7 @@ services:
       JwtSettings__Issuer: "TravelCompany_ApiGateway"
       JwtSettings__Audience: "TravelCompany_Users"
       JwtSettings__SecretKey: "ThisIsAVerySecretKeyForJwtAuthenticationInTravelCompany!"
+      TourService__BaseUrl: "http://tour-service:8080"
       RabbitMQ__HostName: rabbitmq
       RabbitMQ__UserName: guest
       RabbitMQ__Password: guest
@@ -241,6 +242,9 @@ services:
       ReverseProxy__Clusters__userCluster__Destinations__destination1__Address: "http://user-service:8080"
       ReverseProxy__Clusters__tourCluster__Destinations__destination1__Address: "http://tour-service:8080"
       ReverseProxy__Clusters__bookingCluster__Destinations__destination1__Address: "http://booking-service:8080"
+      ReverseProxy__Clusters__paymentCluster__Destinations__destination1__Address: "http://payment-service:8080"
+      ReverseProxy__Clusters__staffCluster__Destinations__destination1__Address: "http://staff-service:8080"
+      ReverseProxy__Clusters__reportCluster__Destinations__destination1__Address: "http://report-service:8080"
     ports:
       - "5000:8080"    # Main entry point → http://localhost:5000
     networks:

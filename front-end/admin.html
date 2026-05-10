@@ -45,14 +45,14 @@
         <a href="#" class="sidebar-link" onclick="navigate('tours', this)">
           <span class="sidebar-icon">✈</span>
           <span>Quản lý Tour</span>
-          <span class="nav-badge">12</span>
+          <span class="nav-badge" id="sidebarTourCount">0</span>
         </a>
       </li>
       <li>
         <a href="#" class="sidebar-link" onclick="navigate('bookings', this)">
           <span class="sidebar-icon">📋</span>
           <span>Đặt chỗ</span>
-          <span class="nav-badge new">8</span>
+          <span class="nav-badge new" id="sidebarBookingCount">0</span>
         </a>
       </li>
       <li>
@@ -93,7 +93,7 @@
       </div>
       <div class="storage-bar"><div class="storage-fill" style="width:72%"></div></div>
     </div>
-    <a href="#" class="btn-logout">
+    <a href="#" class="btn-logout" onclick="clearSession()">
       <span>⏻</span> Đăng xuất
     </a>
   </div>
@@ -412,7 +412,7 @@
           <p>Thông tin và lịch sử khách hàng</p>
         </div>
         <div class="section-actions">
-          <input type="text" class="search-input" placeholder="🔍 Tìm khách hàng...">
+          <input type="text" class="search-input" placeholder="Tìm khách hàng...">
           <button class="btn-export">↓ Xuất danh sách</button>
         </div>
       </div>
@@ -546,14 +546,16 @@
           <textarea id="tourFormDesc" rows="4" placeholder="Mô tả ngắn gọn về tour..."></textarea>
         </div>
         <div class="form-g full">
-          <label>Lịch trình</label>
-          <textarea id="tourFormItinerary" rows="6" placeholder="Mỗi dòng là một ngày. Ví dụ:&#10;Ngày 1: Đón khách và nhận phòng&#10;Ngày 2: Tham quan điểm nổi bật"></textarea>
+          <label>Lịch trình chi tiết (Sáng/Trưa/Chiều/Tối)</label>
+          <div id="tourItineraryContainer" class="itinerary-container">
+            <!-- Dynamic itinerary slots will be injected here by JS -->
+          </div>
         </div>
       </div>
     </div>
     <div class="admin-modal-footer">
       <button class="btn-cancel" onclick="closeTourModal()">Hủy bỏ</button>
-      <button class="btn-primary-admin" onclick="saveTour()">💾 Lưu tour</button>
+      <button class="btn-primary-admin" onclick="saveTour()">Lưu tour</button>
     </div>
   </div>
 </div>
@@ -573,6 +575,42 @@
       <button class="btn-cancel" onclick="closeModal('confirmModal')">Hủy</button>
       <button class="btn-danger" id="confirmActionBtn">Xác nhận</button>
     </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+  <div class="admin-modal" style="max-width:500px">
+    <div class="admin-modal-header">
+      <h2 id="detailModalTitle">Chi tiết</h2>
+      <button class="modal-close-btn" onclick="closeModal('detailModal')">✕</button>
+    </div>
+    <div class="admin-modal-body" id="detailModalBody" style="padding:1.5rem">
+      <!-- Content injected via JS -->
+    </div>
+    <div class="admin-modal-footer">
+      <button class="btn-cancel" onclick="closeModal('detailModal')">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN OVERLAY -->
+<div class="modal-overlay" id="adminLoginOverlay" style="background: var(--bg-body); z-index: 9999; display: flex;">
+  <div class="admin-modal" style="max-width: 400px; text-align: center; padding: 3rem 2rem;">
+    <div class="sidebar-logo" style="justify-content: center; margin-bottom: 1rem; font-size: 1.5rem;">
+      <span class="logo-icon" style="color: var(--primary)">✦</span>
+      <span class="logo-text" style="color: var(--text-main)">LuxTravel Admin</span>
+    </div>
+    <h2 style="margin-bottom: 2rem; font-family: 'Cormorant Garamond', serif; font-size: 2rem;">Đăng nhập</h2>
+    <div class="form-g" style="text-align: left;">
+      <label>Email</label>
+      <input type="email" id="adminLoginEmail" placeholder="admin@luxtravel.vn">
+    </div>
+    <div class="form-g" style="text-align: left; margin-bottom: 2rem;">
+      <label>Mật khẩu</label>
+      <input type="password" id="adminLoginPassword" placeholder="••••••••">
+    </div>
+    <button class="btn-primary-admin" style="width: 100%; padding: 1rem; font-size: 1rem;" onclick="adminLogin()">Đăng nhập</button>
   </div>
 </div>
 

@@ -6,4 +6,6 @@ public sealed record TourSummaryResponse(
     string Description,
     decimal Price,
     int AvailableSlots,
-    int TotalDays);
+    int TotalDays,
+    DateTime CreatedAtUtc,
+    DateTime UpdatedAtUtc);

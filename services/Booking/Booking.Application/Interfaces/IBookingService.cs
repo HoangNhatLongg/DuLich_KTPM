@@ -6,6 +6,7 @@ namespace Booking.Application.Interfaces;
 public interface IBookingService
 {
     Task<IReadOnlyList<BookingResponse>> GetAllAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<BookingResponse>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken);
     Task<BookingResponse> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<BookingResponse> CreateAsync(CreateBookingRequest request, CancellationToken cancellationToken);
     Task<BookingResponse> UpdateStatusAsync(Guid id, UpdateBookingStatusRequest request, CancellationToken cancellationToken);

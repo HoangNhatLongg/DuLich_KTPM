@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "58DQONJCFSw=",
+  "dgSpecHash": "+47Z5q1iWwE=",
   "success": true,
-  "projectFilePath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.API\\User.API.csproj",
+  "projectFilePath": "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.API\\User.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thanh\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

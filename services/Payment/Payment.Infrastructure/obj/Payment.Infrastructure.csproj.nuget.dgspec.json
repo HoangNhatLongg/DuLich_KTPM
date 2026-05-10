@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Infrastructure\\Payment.Infrastructure.csproj": {}
+    "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Infrastructure\\Payment.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
+    "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj",
+        "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj",
         "projectName": "BuildingBlocks",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj",
+        "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\obj\\",
+        "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -69,14 +69,14 @@
         }
       }
     },
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Application\\Payment.Application.csproj": {
+    "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Application\\Payment.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Application\\Payment.Application.csproj",
+        "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Application\\Payment.Application.csproj",
         "projectName": "Payment.Application",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Application\\Payment.Application.csproj",
+        "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Application\\Payment.Application.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Application\\obj\\",
+        "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -97,11 +97,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
+              "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
+                "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
               },
-              "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj"
+              "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {
+                "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj"
               }
             }
           }
@@ -141,14 +141,14 @@
         }
       }
     },
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {
+    "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj",
+        "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj",
         "projectName": "Payment.Domain",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj",
+        "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\obj\\",
+        "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -206,14 +206,14 @@
         }
       }
     },
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Infrastructure\\Payment.Infrastructure.csproj": {
+    "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Infrastructure\\Payment.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Infrastructure\\Payment.Infrastructure.csproj",
+        "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Infrastructure\\Payment.Infrastructure.csproj",
         "projectName": "Payment.Infrastructure",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Infrastructure\\Payment.Infrastructure.csproj",
+        "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Infrastructure\\Payment.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Infrastructure\\obj\\",
+        "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -234,14 +234,14 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
+              "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
+                "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
               },
-              "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Application\\Payment.Application.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Application\\Payment.Application.csproj"
+              "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Application\\Payment.Application.csproj": {
+                "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Application\\Payment.Application.csproj"
               },
-              "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj"
+              "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {
+                "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj"
               }
             }
           }

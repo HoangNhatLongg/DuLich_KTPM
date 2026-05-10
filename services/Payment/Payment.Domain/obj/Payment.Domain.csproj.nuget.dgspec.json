@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {}
+    "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {}
   },
   "projects": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {
+    "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj",
+        "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj",
         "projectName": "Payment.Domain",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj",
+        "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\Payment.Domain.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Payment\\Payment.Domain\\obj\\",
+        "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Payment\\Payment.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

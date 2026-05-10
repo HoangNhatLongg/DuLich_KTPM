@@ -3618,11 +3618,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.API\\User.API.csproj",
+      "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.API\\User.API.csproj",
       "projectName": "UserService.API",
-      "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.API\\User.API.csproj",
+      "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.API\\User.API.csproj",
       "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-      "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.API\\obj\\",
+      "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3643,14 +3643,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.Application\\User.Application.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.Application\\User.Application.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.Application\\User.Application.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.Application\\User.Application.csproj"
             },
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.Domain\\User.Domain.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.Domain\\User.Domain.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.Domain\\User.Domain.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.Domain\\User.Domain.csproj"
             },
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.Infrastructure\\User.Infrastructure.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\User\\User.Infrastructure\\User.Infrastructure.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.Infrastructure\\User.Infrastructure.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\User\\User.Infrastructure\\User.Infrastructure.csproj"
             }
           }
         }

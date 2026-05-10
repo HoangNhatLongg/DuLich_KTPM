@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Application\\Report.Application.csproj": {}
+    "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Application\\Report.Application.csproj": {}
   },
   "projects": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Application\\Report.Application.csproj": {
+    "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Application\\Report.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Application\\Report.Application.csproj",
+        "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Application\\Report.Application.csproj",
         "projectName": "Report.Application",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Application\\Report.Application.csproj",
+        "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Application\\Report.Application.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Application\\obj\\",
+        "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Domain\\Report.Domain.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Domain\\Report.Domain.csproj"
+              "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Domain\\Report.Domain.csproj": {
+                "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Domain\\Report.Domain.csproj"
               }
             }
           }
@@ -73,14 +73,14 @@
         }
       }
     },
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Domain\\Report.Domain.csproj": {
+    "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Domain\\Report.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Domain\\Report.Domain.csproj",
+        "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Domain\\Report.Domain.csproj",
         "projectName": "Report.Domain",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Domain\\Report.Domain.csproj",
+        "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Domain\\Report.Domain.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Domain\\obj\\",
+        "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -13,17 +13,19 @@ public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
     private readonly IConfiguration _configuration;
-    private IConnection _connection = null!;
-    private IModel _channel = null!;
+
+    // RabbitMQ resources — initialized lazily inside ExecuteAsync with retry
+    private IConnection? _connection;
+    private IModel? _channel;
 
     public Worker(ILogger<Worker> logger, IConfiguration configuration)
     {
         _logger = logger;
         _configuration = configuration;
-        InitializeRabbitMQ();
+        // NOTE: Do NOT call InitializeRabbitMQ() here — RabbitMQ may not be ready at startup.
     }
 
-    private void InitializeRabbitMQ()
+    private bool TryInitializeRabbitMQ()
     {
         var factory = new ConnectionFactory
         {
@@ -37,31 +39,50 @@ public class Worker : BackgroundService
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            // Khai bao Exchange
+            // Declare Exchange
             _channel.ExchangeDeclare(exchange: "travel_event_bus", type: ExchangeType.Topic, durable: true);
 
-            // Khai bao Queue
+            // Declare Queue
             var queueName = "notification_queue";
             _channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-            // Bind Queue vao Exchange voi Routing Keys
+            // Bind Queue to Exchange with Routing Keys
             _channel.QueueBind(queue: queueName, exchange: "travel_event_bus", routingKey: nameof(PaymentCompletedEvent));
             _channel.QueueBind(queue: queueName, exchange: "travel_event_bus", routingKey: nameof(BookingCreatedEvent));
-            
+
             _logger.LogInformation("RabbitMQ Connection and Queue '{QueueName}' initialized successfully. Listening to travel_event_bus...", queueName);
+            return true;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Could not initialize RabbitMQ connection");
+            _logger.LogWarning(ex, "Could not connect to RabbitMQ. Will retry...");
+            return false;
         }
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        stoppingToken.ThrowIfCancellationRequested();
+        // Retry loop — wait until RabbitMQ is available
+        const int maxRetries = 10;
+        const int retryDelaySeconds = 5;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        {
+            if (stoppingToken.IsCancellationRequested)
+                return;
+
+            if (TryInitializeRabbitMQ())
+                break;
+
+            _logger.LogInformation("RabbitMQ retry attempt {Attempt}/{Max}. Waiting {Delay}s...", attempt, maxRetries, retryDelaySeconds);
+            await Task.Delay(TimeSpan.FromSeconds(retryDelaySeconds), stoppingToken);
+        }
 
         if (_channel == null)
-            return Task.CompletedTask;
+        {
+            _logger.LogError("Failed to connect to RabbitMQ after all retries. Notification Worker will not process messages.");
+            return;
+        }
 
         var consumer = new EventingBasicConsumer(_channel);
         consumer.Received += (ch, ea) =>
@@ -103,7 +124,7 @@ public class Worker : BackgroundService
                     }
                 }
 
-                // Xac nhan message da den noi va da duoc xu ly
+                // Acknowledge message has been processed
                 _channel.BasicAck(ea.DeliveryTag, false);
             }
             catch (Exception ex)
@@ -114,7 +135,8 @@ public class Worker : BackgroundService
 
         _channel.BasicConsume(queue: "notification_queue", autoAck: false, consumer: consumer);
 
-        return Task.CompletedTask;
+        // Keep the worker alive until cancellation
+        await Task.Delay(Timeout.Infinite, stoppingToken);
     }
 
     public override void Dispose()

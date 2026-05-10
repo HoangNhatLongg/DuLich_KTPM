@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Infrastructure\\Booking.Infrastructure.csproj": {}
+    "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Infrastructure\\Booking.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
+    "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj",
+        "projectUniqueName": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj",
         "projectName": "BuildingBlocks",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj",
+        "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\obj\\",
+        "outputPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -69,14 +69,14 @@
         }
       }
     },
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Application\\Booking.Application.csproj": {
+    "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Application\\Booking.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Application\\Booking.Application.csproj",
+        "projectUniqueName": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Application\\Booking.Application.csproj",
         "projectName": "Booking.Application",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Application\\Booking.Application.csproj",
+        "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Application\\Booking.Application.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Application\\obj\\",
+        "outputPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -97,11 +97,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
+              "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
+                "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
               },
-              "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj"
+              "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj": {
+                "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj"
               }
             }
           }
@@ -151,14 +151,14 @@
         }
       }
     },
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj": {
+    "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj",
+        "projectUniqueName": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj",
         "projectName": "Booking.Domain",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj",
+        "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Domain\\obj\\",
+        "outputPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -216,14 +216,14 @@
         }
       }
     },
-    "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Infrastructure\\Booking.Infrastructure.csproj": {
+    "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Infrastructure\\Booking.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Infrastructure\\Booking.Infrastructure.csproj",
+        "projectUniqueName": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Infrastructure\\Booking.Infrastructure.csproj",
         "projectName": "Booking.Infrastructure",
-        "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Infrastructure\\Booking.Infrastructure.csproj",
+        "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Infrastructure\\Booking.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Infrastructure\\obj\\",
+        "outputPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -244,14 +244,14 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
+              "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj": {
+                "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\building-blocks\\BuildingBlocks\\BuildingBlocks.csproj"
               },
-              "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Application\\Booking.Application.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Application\\Booking.Application.csproj"
+              "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Application\\Booking.Application.csproj": {
+                "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Application\\Booking.Application.csproj"
               },
-              "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj": {
-                "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj"
+              "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj": {
+                "projectPath": "C:\\CNTT\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Domain\\Booking.Domain.csproj"
               }
             }
           }

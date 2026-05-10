@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "16umGV3Wb2M=",
+  "dgSpecHash": "t3bTQAJJBVc=",
   "success": true,
-  "projectFilePath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Tour\\Tour.Tests\\Tour.Tests.csproj",
+  "projectFilePath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Tour\\Tour.Tests\\Tour.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thanh\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",

@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.Domain\\Staff.Domain.csproj",
+      "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.Domain\\Staff.Domain.csproj",
       "projectName": "Staff.Domain",
-      "projectPath": "d:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.Domain\\Staff.Domain.csproj",
+      "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.Domain\\Staff.Domain.csproj",
       "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-      "outputPath": "d:\\KienTrucPhanMem\\TieuLuan\\services\\Staff\\Staff.Domain\\obj\\",
+      "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Staff\\Staff.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

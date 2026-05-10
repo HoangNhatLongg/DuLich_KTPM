@@ -12,5 +12,15 @@ public sealed class CreateBookingRequestValidator : AbstractValidator<CreateBook
 
         RuleFor(x => x.TourId)
             .NotEmpty();
+
+        RuleFor(x => x.CustomerEmail)
+            .NotEmpty()
+            .EmailAddress();
+
+        RuleFor(x => x.TourName)
+            .NotEmpty();
+
+        RuleFor(x => x.TotalPrice)
+            .GreaterThanOrEqualTo(0);
     }
 }

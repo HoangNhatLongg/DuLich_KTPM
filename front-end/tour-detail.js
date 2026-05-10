@@ -4,7 +4,8 @@ const state = {
   currentTour: null,
   bookingTour: null,
   adultsCount: 2,
-  childrenCount: 0
+  childrenCount: 0,
+  isFavorite: false
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -16,13 +17,29 @@ document.addEventListener('DOMContentLoaded', async () => {
   const id = params.get('id');
   if (id) {
     await loadTourDetail(id);
+    
+    // Check favorite status if logged in
+    const session = requireSession();
+    if (session) {
+      await checkFavoriteStatus(id);
+    }
+    
+    // Auto-open booking if ?book=1
+    if (params.get('book') === '1' && session) {
+      setTimeout(() => openBooking(id), 500);
+    }
   } else {
     document.getElementById('tourDetailContent').innerHTML =
       '<p style="text-align:center;padding:4rem;color:var(--text-muted)">Không tìm thấy tour.</p>';
   }
 });
 
-window.addEventListener('luxtravel:auth-changed', () => syncAuthUi());
+window.addEventListener('luxtravel:auth-changed', () => {
+  syncAuthUi();
+  if (state.currentTour) {
+    checkFavoriteStatus(state.currentTour.id);
+  }
+});
 
 // ── Header ────────────────────────────────────────────────────────────────────
 
@@ -35,6 +52,72 @@ function initHeader() {
 
 function toggleMenu() {
   document.getElementById('navLinks').classList.toggle('open');
+}
+
+// ── Favorite Functions ─────────────────────────────────────────────────────────
+
+async function checkFavoriteStatus(tourId) {
+  try {
+    const session = getSession();
+    if (!session) {
+      state.isFavorite = false;
+      updateFavoriteButton();
+      return;
+    }
+    
+    const response = await favoritesApi(`/${tourId}/status`, { token: session.accessToken });
+    state.isFavorite = response?.isFavorite || false;
+    updateFavoriteButton();
+  } catch (err) {
+    state.isFavorite = false;
+    updateFavoriteButton();
+  }
+}
+
+async function toggleFavorite(tourId) {
+  const session = getSession();
+  if (!session || !isSessionValid(session)) {
+    showToast('Vui lòng đăng nhập để lưu tour yêu thích.');
+    openModal('loginModal');
+    return;
+  }
+  
+  try {
+    const wasFavorite = state.isFavorite;
+    
+    // Optimistic UI update
+    state.isFavorite = !wasFavorite;
+    updateFavoriteButton();
+    
+    await favoritesApi(`/${tourId}/toggle`, {
+      method: 'POST',
+      token: session.accessToken
+    });
+    
+    showToast(wasFavorite ? 'Đã xóa khỏi yêu thích.' : 'Đã thêm vào yêu thích!');
+  } catch (err) {
+    // Revert on error
+    state.isFavorite = !state.isFavorite;
+    updateFavoriteButton();
+    showToast(err.message || 'Không thể cập nhật yêu thích.');
+  }
+}
+
+function updateFavoriteButton() {
+  // Update sidebar button
+  const sidebarBtn = document.getElementById('favoriteBtn');
+  if (sidebarBtn) {
+    sidebarBtn.innerHTML = state.isFavorite ? '♥ Đã lưu' : '♡ Lưu tour';
+    sidebarBtn.classList.toggle('favorited', state.isFavorite);
+  }
+  
+  // Update hero button
+  const heroBtn = document.querySelector('.hero-favorite-btn');
+  if (heroBtn) {
+    heroBtn.innerHTML = state.isFavorite ? '♥' : '♡';
+    heroBtn.classList.toggle('favorited', state.isFavorite);
+    heroBtn.title = state.isFavorite ? 'Bỏ khỏi yêu thích' : 'Thêm vào yêu thích';
+  }
 }
 
 // ── Auth UI ───────────────────────────────────────────────────────────────────
@@ -52,15 +135,53 @@ function syncAuthUi() {
     return;
   }
 
-  const adminLink = isAdminSession(session)
-    ? '<a class="btn-outline" href="admin.html">Quản trị</a>'
-    : '';
+  const userName = session.profile?.name || session.user.email?.split('@')[0] || 'Khách hàng';
+  const initials = userName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  const isAdmin = isAdminSession(session);
 
   navActions.innerHTML = `
-    <span style="color:var(--text);font-size:0.92rem">Xin chào, ${escapeHtml(session.profile?.name || session.user.email)}</span>
-    ${adminLink}
-    <button class="btn-primary" onclick="logout()">Đăng xuất</button>
+    <div class="user-dropdown" id="userDropdown">
+      <button class="user-dropdown-trigger" onclick="toggleUserDropdown()">
+        <div class="user-avatar">${initials}</div>
+        <span class="user-name">${escapeHtml(userName)}</span>
+        <span class="dropdown-arrow">▼</span>
+      </button>
+      <div class="user-dropdown-menu" id="userDropdownMenu">
+        <a href="my-bookings.html" class="dropdown-item">
+          <span class="dropdown-icon">🎫</span>
+          Tour của tôi
+        </a>
+        ${isAdmin ? `
+          <a href="admin.html" class="dropdown-item">
+            <span class="dropdown-icon">⚙️</span>
+            Quản trị
+          </a>
+        ` : ''}
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item dropdown-item-danger" onclick="logout()">
+          <span class="dropdown-icon">🚪</span>
+          Đăng xuất
+        </button>
+      </div>
+    </div>
   `;
+
+  document.addEventListener('click', closeUserDropdownOnClickOutside);
+}
+
+function toggleUserDropdown() {
+  const menu = document.getElementById('userDropdownMenu');
+  if (menu) {
+    menu.classList.toggle('show');
+  }
+}
+
+function closeUserDropdownOnClickOutside(event) {
+  const dropdown = document.getElementById('userDropdown');
+  const menu = document.getElementById('userDropdownMenu');
+  if (dropdown && !dropdown.contains(event.target)) {
+    menu?.classList.remove('show');
+  }
 }
 
 // ── Load tour detail ──────────────────────────────────────────────────────────
@@ -85,10 +206,12 @@ function renderTourDetail() {
   document.title = `${tour.name} – LuxTravel`;
 
   const itineraryHtml = tour.itinerary.map(item => `
-    <div class="itinerary-item">
-      <p class="itinerary-day">${escapeHtml(item.day)}</p>
-      <h4>${escapeHtml(item.title)}</h4>
-      <p>${escapeHtml(item.desc)}</p>
+    <div class="itinerary-item" style="padding:1rem; background:var(--bg-alt); border-radius:var(--radius-md); margin-bottom:1rem;">
+      <h4 style="margin-bottom:0.75rem; color:var(--primary); font-size:1.1rem;">${escapeHtml(item.day)}:</h4>
+      ${item.morning ? `<div style="margin-bottom:0.75rem"><strong style="display:block;margin-bottom:0.25rem;">Lịch trình buổi sáng:</strong><div style="white-space: pre-wrap; font-size:0.95rem; line-height: 1.5;">${escapeHtml(item.morning)}</div></div>` : ''}
+      ${item.noon ? `<div style="margin-bottom:0.75rem"><strong style="display:block;margin-bottom:0.25rem;">Lịch trình buổi trưa:</strong><div style="white-space: pre-wrap; font-size:0.95rem; line-height: 1.5;">${escapeHtml(item.noon)}</div></div>` : ''}
+      ${item.afternoon ? `<div style="margin-bottom:0.75rem"><strong style="display:block;margin-bottom:0.25rem;">Lịch trình buổi chiều:</strong><div style="white-space: pre-wrap; font-size:0.95rem; line-height: 1.5;">${escapeHtml(item.afternoon)}</div></div>` : ''}
+      ${item.evening ? `<div style="margin-bottom:0.75rem"><strong style="display:block;margin-bottom:0.25rem;">Lịch trình buổi tối:</strong><div style="white-space: pre-wrap; font-size:0.95rem; line-height: 1.5;">${escapeHtml(item.evening)}</div></div>` : ''}
     </div>
   `).join('');
 
@@ -97,6 +220,11 @@ function renderTourDetail() {
   document.getElementById('tourDetailContent').innerHTML = `
     <div class="tour-detail-hero" style="background-image:url('${escapeHtml(tour.img)}')">
       <div class="overlay"></div>
+      <button class="hero-favorite-btn ${state.isFavorite ? 'favorited' : ''}" 
+              onclick="toggleFavorite('${tour.id}')" 
+              title="${state.isFavorite ? 'Bỏ khỏi yêu thích' : 'Thêm vào yêu thích'}">
+        ${state.isFavorite ? '♥' : '♡'}
+      </button>
       <div style="position:absolute;bottom:0;left:0;right:0;padding:3rem 2rem;max-width:1400px;margin:0 auto;">
         <p class="section-eyebrow">${escapeHtml(tour.destination)}</p>
         <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:300;color:white;margin-bottom:0.75rem;">${escapeHtml(tour.name)}</h1>
@@ -125,6 +253,9 @@ function renderTourDetail() {
       <div class="booking-sidebar">
         <div class="booking-sidebar-price">${formatPrice(tour.price)}</div>
         <div class="booking-sidebar-unit">/ người lớn</div>
+        <button id="favoriteBtn" class="btn-favorite" onclick="toggleFavorite('${tour.id}')">
+          ${state.isFavorite ? '♥ Đã lưu' : '♡ Lưu tour'}
+        </button>
         <div class="booking-form-group">
           <label>Ngày khởi hành</label>
           <input type="date" id="sidebarDate">
@@ -164,6 +295,9 @@ function renderTourDetail() {
     const savedDate = sessionStorage.getItem('luxtravel_departure_date') || '';
     sidebarDate.value = savedDate || getNextWeekDate();
   }
+  
+  // Update favorite button state after render
+  updateFavoriteButton();
 }
 
 function updateSidebarPrice() {
@@ -253,15 +387,73 @@ async function confirmPayment() {
   if (button) { button.disabled = true; button.textContent = 'Đang xử lý...'; }
 
   try {
+    const totalAmount = state.bookingTour.price * state.adultsCount + state.bookingTour.childPrice * state.childrenCount;
+    const departureDate = document.getElementById('sidebarDate')?.value || null;
+
     const booking = await bookingApi('/api/bookings', {
       method: 'POST',
-      body: { userId: session.user.id, tourId: state.bookingTour.id }
+      token: session.accessToken,
+      body: { 
+        userId: session.user.id, 
+        tourId: state.bookingTour.id,
+        customerEmail: session.user.email,
+        tourName: state.bookingTour.name,
+        totalPrice: totalAmount,
+        departureDate: departureDate || null
+      }
     });
 
-    await sleep(500);
-    document.getElementById('bookingStep2').classList.add('hidden');
-    document.getElementById('bookingStep3').classList.remove('hidden');
-    document.getElementById('bookingCode').textContent = booking.id.slice(0, 8).toUpperCase();
+    // Map payment method from radio
+    const pmRadio = document.querySelector('input[name="payment"]:checked');
+    let methodEnum = 1; // BankTransfer default
+    if (pmRadio) {
+      if (pmRadio.value === 'card') methodEnum = 2; // VNPay
+      if (pmRadio.value === 'wallet') methodEnum = 3; // Momo
+    }
+
+    // Process payment
+    const paymentResp = await paymentApi('/api/payments/process', {
+      method: 'POST',
+      token: session.accessToken,
+      body: {
+        bookingId: booking.id,
+        amount: totalAmount,
+        method: methodEnum
+      }
+    });
+
+    if (paymentResp && paymentResp.paymentId) {
+      state.currentPaymentId = paymentResp.paymentId;
+      state.currentBookingCode = booking.id.slice(0, 8).toUpperCase();
+      
+      // Hiển thị thông tin thanh toán
+      document.getElementById('bookingStep2').classList.add('hidden');
+      document.getElementById('bookingStep2_5').classList.remove('hidden');
+      
+      const container = document.getElementById('paymentDetailsContainer');
+      const details = paymentResp.paymentUrlOrQrCode || '';
+      
+      if (details.startsWith('http')) {
+        // Link thanh toán (Momo / VNPay)
+        container.innerHTML = `
+          <p style="margin-bottom: 1rem;">Vui lòng click vào link bên dưới để thanh toán qua cổng điện tử:</p>
+          <a href="${details}" target="_blank" style="display: inline-block; padding: 1rem 2rem; background: var(--primary); color: white; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500;">Thanh toán ngay</a>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">Sau khi hoàn tất, hãy quay lại đây và nhấn "Tôi đã hoàn tất thanh toán".</p>
+        `;
+      } else {
+        // Chuyển khoản ngân hàng
+        container.innerHTML = `
+          <p style="margin-bottom: 1rem;">Vui lòng chuyển khoản theo thông tin dưới đây:</p>
+          <div style="background: white; padding: 1.5rem; border-radius: var(--radius-sm); border: 1px dashed var(--border); text-align: left; font-family: monospace; font-size: 1.1rem; line-height: 1.6;">
+            ${details.replace(/ - /g, '<br>')}
+          </div>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">Hệ thống sẽ kiểm tra tự động sau khi bạn xác nhận.</p>
+        `;
+      }
+    } else {
+      throw new Error('Không nhận được thông tin thanh toán từ hệ thống.');
+    }
+
   } catch (err) {
     showToast(err.message || 'Đặt tour thất bại.');
   } finally {
@@ -269,12 +461,47 @@ async function confirmPayment() {
   }
 }
 
+async function finalizePayment() {
+  const session = requireSession();
+  if (!session || !state.currentPaymentId) return;
+
+  const btn = document.getElementById('btnFinalizePayment');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Đang xác nhận...';
+  }
+
+  try {
+    // Simulate webhook
+    await paymentApi(`/api/payments/confirm/${state.currentPaymentId}`, {
+      method: 'POST',
+      token: session.accessToken
+    });
+
+    await sleep(500);
+    document.getElementById('bookingStep2_5').classList.add('hidden');
+    document.getElementById('bookingStep3').classList.remove('hidden');
+    document.getElementById('bookingCode').textContent = state.currentBookingCode;
+  } catch (err) {
+    showToast('Chưa nhận được thanh toán, vui lòng thử lại sau giây lát.');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Tôi đã hoàn tất thanh toán';
+    }
+  }
+}
+
 function resetBooking() {
   state.bookingTour   = null;
   state.adultsCount   = 2;
   state.childrenCount = 0;
+  state.currentPaymentId = null;
+  state.currentBookingCode = null;
   document.getElementById('bookingStep1').classList.remove('hidden');
   document.getElementById('bookingStep2').classList.add('hidden');
+  const step25 = document.getElementById('bookingStep2_5');
+  if(step25) step25.classList.add('hidden');
   document.getElementById('bookingStep3').classList.add('hidden');
 }
 

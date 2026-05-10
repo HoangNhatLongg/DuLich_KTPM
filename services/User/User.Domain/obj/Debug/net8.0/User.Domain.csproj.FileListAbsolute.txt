@@ -9,3 +9,15 @@ D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\UserServi
 D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\refint\UserService.Domain.dll
 D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\UserService.Domain.pdb
 D:\KienTrucPhanMem\TieuLuan\services\User\User.Domain\obj\Debug\net8.0\ref\UserService.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\bin\Debug\net8.0\UserService.Domain.deps.json
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\bin\Debug\net8.0\UserService.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\bin\Debug\net8.0\UserService.Domain.pdb
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\obj\Debug\net8.0\User.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\obj\Debug\net8.0\User.Domain.AssemblyInfoInputs.cache
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\obj\Debug\net8.0\User.Domain.AssemblyInfo.cs
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\obj\Debug\net8.0\User.Domain.csproj.CoreCompileInputs.cache
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\obj\Debug\net8.0\User.Domain.sourcelink.json
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\obj\Debug\net8.0\UserService.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\obj\Debug\net8.0\refint\UserService.Domain.dll
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\obj\Debug\net8.0\UserService.Domain.pdb
+C:\KTTKPM\DuLich_KTPM\services\User\User.Domain\obj\Debug\net8.0\ref\UserService.Domain.dll

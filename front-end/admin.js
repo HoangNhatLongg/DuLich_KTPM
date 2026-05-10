@@ -10,36 +10,90 @@ const adminState = {
 
 document.addEventListener('DOMContentLoaded', async () => {
   updateDate();
-  await loadAdminData();
-  updateAdminIdentity();
+  
+  const session = getSession();
+  if (!session) {
+    document.getElementById('adminLoginOverlay').style.display = 'flex';
+  } else {
+    document.getElementById('adminLoginOverlay').style.display = 'none';
+    await loadAdminData();
+    updateAdminIdentity();
+  }
 });
 
-window.addEventListener('luxtravel:auth-changed', () => {
-  updateAdminIdentity();
+window.addEventListener('luxtravel:auth-changed', async () => {
+  const session = getSession();
+  if (!session) {
+    document.getElementById('adminLoginOverlay').style.display = 'flex';
+  } else {
+    document.getElementById('adminLoginOverlay').style.display = 'none';
+    await loadAdminData();
+    updateAdminIdentity();
+  }
 });
+
+async function adminLogin() {
+  const emailInput = document.getElementById('adminLoginEmail');
+  const passwordInput = document.getElementById('adminLoginPassword');
+  const btn = document.querySelector('#adminLoginOverlay .btn-primary-admin');
+  
+  if (!emailInput.value || !passwordInput.value) {
+    showToast('Vui lòng nhập đầy đủ email và mật khẩu');
+    return;
+  }
+  
+  btn.disabled = true;
+  btn.textContent = 'Đang xác thực...';
+  
+  try {
+    const authResp = await userApi('/api/auth/login', {
+      method: 'POST',
+      body: {
+        email: emailInput.value,
+        password: passwordInput.value
+      }
+    });
+
+    if (authResp && authResp.user) {
+      if (authResp.user.role === 'Admin' || authResp.user.role === 'Staff') {
+        saveSession(authResp);
+        showToast('Đăng nhập quản trị thành công!');
+      } else {
+        showToast('Tài khoản của bạn không có quyền truy cập trang Quản trị.');
+      }
+    } else {
+      showToast('Phản hồi từ server không hợp lệ.');
+    }
+  } catch (error) {
+    showToast(error.message || 'Đăng nhập thất bại.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Đăng nhập';
+  }
+}
 
 async function loadAdminData() {
+  const session = requireSession();
+  const token = session?.accessToken;
+
   try {
     const [rawTours, rawBookings] = await Promise.all([
       tourApi('/api/tours'),
-      bookingApi('/api/bookings')
+      bookingApi('/api/bookings', { token })
     ]);
 
     adminState.tours = rawTours.map(normalizeTour);
     adminState.bookings = rawBookings;
   } catch (error) {
-    showToast(error.message || 'Khong tai duoc du lieu he thong.');
+    showToast(error.message || 'Không tải được dữ liệu hệ thống.');
   }
 
-  const session = requireSession();
   if (session && isAdminSession(session)) {
     try {
-      adminState.users = await userApi('/api/users', {
-        token: session.accessToken
-      });
+      adminState.users = await userApi('/api/users', { token });
     } catch (error) {
       adminState.users = [];
-      showToast(`Khong tai duoc danh sach nguoi dung: ${error.message}`);
+      showToast(`Không tải được danh sách người dùng: ${error.message}`);
     }
   } else {
     adminState.users = [];
@@ -60,9 +114,9 @@ function updateAdminIdentity() {
   const avatarElements = document.querySelectorAll('.avatar, .topbar-avatar');
 
   if (!session) {
-    if (profileName) profileName.textContent = 'Khach';
-    if (profileRole) profileRole.textContent = 'Chua dang nhap';
-    if (topbarName) topbarName.textContent = 'Khach';
+    if (profileName) profileName.textContent = 'Khách';
+    if (profileRole) profileRole.textContent = 'Chưa đăng nhập';
+    if (topbarName) topbarName.textContent = 'Khách';
     avatarElements.forEach((element) => { element.textContent = 'KG'; });
     return;
   }
@@ -118,11 +172,11 @@ function toggleNotif() {
 function toggleUserMenu() {
   const session = requireSession();
   if (!session) {
-    showToast('Dang nhap tai trang chu de quan ly tai khoan.');
+    showToast('Đăng nhập tại trang chủ để quản lý tài khoản.');
     return;
   }
 
-  showToast(`Dang dang nhap voi ${session.user.email}`);
+  showToast(`Đang đăng nhập với ${session.user.email}`);
 }
 
 function renderDashboard() {
@@ -141,6 +195,12 @@ function renderStatCards() {
   setStatCardValue(1, todaysBookings.length);
   setRevenueValue(paidRevenue);
   setStatCardValue(3, adminState.users.length || uniqueUserIds(adminState.bookings).size);
+
+  const sidebarTourCount = document.getElementById('sidebarTourCount');
+  if (sidebarTourCount) sidebarTourCount.textContent = adminState.tours.length;
+  
+  const sidebarBookingCount = document.getElementById('sidebarBookingCount');
+  if (sidebarBookingCount) sidebarBookingCount.textContent = adminState.bookings.length;
 }
 
 function setStatCardValue(index, value) {
@@ -195,7 +255,7 @@ function renderRecentBookings() {
     .sort((left, right) => new Date(right.createdAtUtc) - new Date(left.createdAtUtc))
     .slice(0, 6);
 
-  tbody.innerHTML = rows.map((booking) => bookingRowHtml(booking, true)).join('') || emptyRow(7, 'Chua co booking nao.');
+  tbody.innerHTML = rows.map((booking) => bookingRowHtml(booking, true)).join('') || emptyRow(7, 'Chưa có booking nào.');
 }
 
 function renderTopTours() {
@@ -230,7 +290,7 @@ function renderTopTours() {
       </div>
       <div class="top-tour-revenue">${formatRevenueCompact(item.revenue)}</div>
     </div>
-  `).join('') || '<p>Chua co du lieu tour.</p>';
+  `).join('') || '<p>Chưa có dữ liệu tour.</p>';
 }
 
 function renderAdminTours() {
@@ -265,12 +325,12 @@ function renderAdminTours() {
       <td>
         <div class="table-actions">
           <button class="action-btn action-view" onclick="previewTour('${tour.id}')">Xem</button>
-          <button class="action-btn action-edit" onclick="openTourModal('${tour.id}')">Sua</button>
-          <button class="action-btn action-delete" onclick="confirmDelete('${tour.id}')">Xoa</button>
+          <button class="action-btn action-edit" onclick="openTourModal('${tour.id}')">Sửa</button>
+          <button class="action-btn action-delete" onclick="confirmDelete('${tour.id}')">Xóa</button>
         </div>
       </td>
     </tr>
-  `).join('') || emptyRow(7, 'Chua co tour nao.');
+  `).join('') || emptyRow(7, 'Chưa có tour nào.');
 }
 
 function filterAdminTours(filter, button) {
@@ -296,7 +356,7 @@ function renderAllBookings(filter = adminState.currentBookingFilter) {
     .slice()
     .sort((left, right) => new Date(right.createdAtUtc) - new Date(left.createdAtUtc))
     .map((booking) => bookingRowHtml(booking, false))
-    .join('') || emptyRow(9, 'Khong co booking phu hop.');
+    .join('') || emptyRow(9, 'Không có booking phù hợp.');
 }
 
 function filterBookingStatus(value) {
@@ -309,7 +369,7 @@ function bookingRowHtml(booking, compact) {
   const user = getUserById(booking.userId);
   const revenue = tour ? tour.price : 0;
   const name = user?.email || `User ${booking.userId.slice(0, 8)}`;
-  const email = user?.email || 'Khong co email';
+  const email = user?.email || 'Không có email';
   const actions = compact
     ? `
       <div class="table-actions">
@@ -320,7 +380,7 @@ function bookingRowHtml(booking, compact) {
       <div class="table-actions">
         <button class="action-btn action-view" onclick="viewBookingDetail('${booking.id}')">Xem</button>
         ${booking.status.toLowerCase() !== 'paid' ? `<button class="action-btn action-edit" onclick="updateBookingStatus('${booking.id}','Paid')">Paid</button>` : ''}
-        ${booking.status.toLowerCase() !== 'cancelled' ? `<button class="action-btn action-delete" onclick="updateBookingStatus('${booking.id}','Cancelled')">Huy</button>` : ''}
+        ${booking.status.toLowerCase() !== 'cancelled' ? `<button class="action-btn action-delete" onclick="updateBookingStatus('${booking.id}','Cancelled')">Hủy</button>` : ''}
       </div>
     `;
 
@@ -376,7 +436,19 @@ function viewBookingDetail(id) {
   }
 
   const tour = getTourById(booking.tourId);
-  showToast(`Booking ${booking.id.slice(0, 8).toUpperCase()} - ${tour?.name || booking.tourId} - ${booking.status}`);
+  const user = getUserById(booking.userId);
+  const title = document.getElementById('detailModalTitle');
+  const body = document.getElementById('detailModalBody');
+  if (title && body) {
+    title.textContent = `Chi tiết Booking #${booking.id.slice(0, 8).toUpperCase()}`;
+    body.innerHTML = `
+      <p style="margin-bottom:0.5rem"><strong>Khách hàng:</strong> ${user?.email || booking.userId}</p>
+      <p style="margin-bottom:0.5rem"><strong>Tour:</strong> ${tour?.name || booking.tourId}</p>
+      <p style="margin-bottom:0.5rem"><strong>Trạng thái:</strong> ${booking.status}</p>
+      <p style="margin-bottom:0.5rem"><strong>Ngày đặt:</strong> ${formatDateTime(booking.createdAtUtc)}</p>
+    `;
+    document.getElementById('detailModal').classList.add('open');
+  }
 }
 
 function renderCustomers() {
@@ -417,11 +489,11 @@ function renderCustomers() {
       <td>${vipBadge(customer.vip)}</td>
       <td>
         <div class="table-actions">
-          <button class="action-btn action-view" onclick="showCustomerProfile('${customer.id}')">Ho so</button>
+          <button class="action-btn action-view" onclick="showCustomerProfile('${customer.id}')">Hồ sơ</button>
         </div>
       </td>
     </tr>
-  `).join('') || emptyRow(7, 'Chua co du lieu khach hang.');
+  `).join('') || emptyRow(7, 'Chưa có dữ liệu khách hàng.');
 }
 
 function renderReports() {
@@ -450,7 +522,7 @@ function renderDestinationRevenue() {
       <div class="h-bar-label"><span>${escapeHtml(item.name)}</span><strong>${formatRevenueCompact(item.revenue)}</strong></div>
       <div class="h-bar-track"><div class="h-bar-fill" style="width:${Math.round(item.revenue / maxRevenue * 100)}%"></div></div>
     </div>
-  `).join('') || '<p>Chua co du lieu bao cao.</p>';
+  `).join('') || '<p>Chưa có dữ liệu báo cáo.</p>';
 }
 
 function renderPieLegend() {
@@ -464,10 +536,10 @@ function renderPieLegend() {
   const pendingCount = adminState.bookings.filter((booking) => booking.status.toLowerCase() === 'pending').length;
   const cancelledCount = adminState.bookings.filter((booking) => booking.status.toLowerCase() === 'cancelled').length;
   const series = [
-    { label: 'Da thanh toan', pct: Math.round(paidCount / Math.max(adminState.bookings.length, 1) * 100), color: '#c9a96e' },
-    { label: 'Cho thanh toan', pct: Math.round(pendingCount / Math.max(adminState.bookings.length, 1) * 100), color: '#7cb9e8' },
-    { label: 'Da huy', pct: Math.round(cancelledCount / Math.max(adminState.bookings.length, 1) * 100), color: '#e8a0d0' },
-    { label: 'Nguoi dung', pct: Math.round((adminState.users.length || totalUsers) / totalUsers * 100), color: '#90c97e' }
+    { label: 'Đã thanh toán', pct: Math.round(paidCount / Math.max(adminState.bookings.length, 1) * 100), color: '#c9a96e' },
+    { label: 'Chờ thanh toán', pct: Math.round(pendingCount / Math.max(adminState.bookings.length, 1) * 100), color: '#7cb9e8' },
+    { label: 'Đã hủy', pct: Math.round(cancelledCount / Math.max(adminState.bookings.length, 1) * 100), color: '#e8a0d0' },
+    { label: 'Người dùng', pct: Math.round((adminState.users.length || totalUsers) / totalUsers * 100), color: '#90c97e' }
   ];
 
   element.innerHTML = series.map((item) => `
@@ -503,22 +575,33 @@ function renderAreaChart() {
   labels.innerHTML = lastSix.map((item) => `<div class="area-label">${escapeHtml(item.label)}</div>`).join('');
 }
 
-function openTourModal(id = null) {
+async function openTourModal(id = null) {
   adminState.editingTourId = id;
   const title = document.getElementById('tourModalTitle');
-  const tour = adminState.tours.find((item) => item.id === id);
+  let tour = null;
+
+  if (id) {
+    try {
+      const token = requireSession()?.accessToken;
+      const rawTour = await tourApi(`/api/tours/${id}`, { token });
+      tour = normalizeTour(rawTour);
+    } catch (err) {
+      showToast('Không tải được chi tiết tour.');
+      return;
+    }
+  }
 
   if (tour) {
-    title.textContent = 'Chinh sua tour';
+    title.textContent = 'Chỉnh sửa tour';
     setInput('tourFormName', tour.name);
     setInput('tourFormSlots', tour.availableSlots);
     setInput('tourFormPrice', tour.price);
     setInput('tourFormDuration', tour.duration);
     setInput('tourFormDayCount', tour.totalDays);
     setInput('tourFormDesc', tour.description);
-    setInput('tourFormItinerary', tour.itinerary.map((item) => `Ngay ${item.day.replace('Ngay ', '')}: ${item.desc}`).join('\n'));
+    renderItineraryInputs(tour.totalDays, tour.itinerary);
   } else {
-    title.textContent = 'Them tour moi';
+    title.textContent = 'Thêm tour mới';
     clearTourForm();
   }
 
@@ -532,21 +615,104 @@ function closeTourModal() {
 }
 
 function clearTourForm() {
-  ['tourFormName', 'tourFormSlots', 'tourFormPrice', 'tourFormDuration', 'tourFormDayCount', 'tourFormDesc', 'tourFormItinerary']
+  ['tourFormName', 'tourFormSlots', 'tourFormPrice', 'tourFormDuration', 'tourFormDayCount', 'tourFormDesc']
     .forEach((id) => setInput(id, ''));
+  renderItineraryInputs(1, []);
+}
+
+function renderItineraryInputs(dayCount, existingItineraries = []) {
+  const container = document.getElementById('tourItineraryContainer');
+  if (!container) return;
+
+  const count = parseInt(dayCount, 10) || 1;
+  let html = '';
+
+  for (let i = 1; i <= count; i++) {
+    const existing = existingItineraries.find(it => parseInt(it.day.replace('Ngày ', '')) === i) || {};
+    html += `
+      <div class="itinerary-day-block" style="border:1px solid var(--border-color); padding:1rem; border-radius:var(--radius-sm); margin-bottom:1rem; background:var(--bg-alt)">
+        <h4 style="margin-bottom:0.75rem; color:var(--primary-color)">Ngày ${i}</h4>
+        <div class="form-group" style="margin-bottom:0.75rem">
+          <label style="font-size:0.8rem">Sáng</label>
+          <textarea id="itin_morning_${i}" rows="3" placeholder="Hoạt động buổi sáng...">${escapeHtml(existing.morning || '')}</textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:0.75rem">
+          <label style="font-size:0.8rem">Trưa</label>
+          <textarea id="itin_noon_${i}" rows="3" placeholder="Hoạt động buổi trưa...">${escapeHtml(existing.noon || '')}</textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:0.75rem">
+          <label style="font-size:0.8rem">Chiều</label>
+          <textarea id="itin_afternoon_${i}" rows="3" placeholder="Hoạt động buổi chiều...">${escapeHtml(existing.afternoon || '')}</textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:0.75rem">
+          <label style="font-size:0.8rem">Tối</label>
+          <textarea id="itin_evening_${i}" rows="3" placeholder="Hoạt động buổi tối...">${escapeHtml(existing.evening || '')}</textarea>
+        </div>
+      </div>
+    `;
+  }
+  container.innerHTML = html;
+}
+
+document.getElementById('tourFormDayCount')?.addEventListener('input', (e) => {
+  const currentDays = parseInt(e.target.value, 10);
+  if (currentDays > 0) {
+    const currentData = collectItineraryInputs();
+    renderItineraryInputs(currentDays, currentData);
+  }
+});
+
+function collectItineraryInputs() {
+  const container = document.getElementById('tourItineraryContainer');
+  if (!container) return [];
+  const blocks = container.querySelectorAll('.itinerary-day-block');
+  const itineraries = [];
+  let isValid = true;
+  
+  blocks.forEach((block, index) => {
+    const day = index + 1;
+    const morning = document.getElementById(`itin_morning_${day}`)?.value.trim();
+    const noon = document.getElementById(`itin_noon_${day}`)?.value.trim();
+    const afternoon = document.getElementById(`itin_afternoon_${day}`)?.value.trim();
+    const evening = document.getElementById(`itin_evening_${day}`)?.value.trim();
+    
+    if (!morning || !noon || !afternoon || !evening) {
+      isValid = false;
+    }
+
+    if (morning || noon || afternoon || evening) {
+      itineraries.push({
+        dayNumber: day,
+        day: `Ngày ${day}`,
+        morning: morning,
+        noon: noon,
+        afternoon: afternoon,
+        evening: evening
+      });
+    }
+  });
+  
+  itineraries.isValid = isValid;
+  return itineraries;
 }
 
 async function saveTour() {
+  const token = requireSession()?.accessToken;
   const name = getInput('tourFormName');
   const slots = Number(getInput('tourFormSlots'));
   const price = Number(getInput('tourFormPrice'));
   const description = getInput('tourFormDesc');
-  const itineraryPayload = buildItineraryPayload(getInput('tourFormItinerary'));
+  const itineraryPayload = collectItineraryInputs();
   const dayCountInput = Number(getInput('tourFormDayCount'));
   const dayCount = itineraryPayload.length || dayCountInput || 1;
 
   if (!name || !description || !price || Number.isNaN(slots)) {
-    showToast('Vui long nhap day du ten, gia, so cho va mo ta.');
+    showToast('Vui lòng nhập đầy đủ tên, giá, số chỗ và mô tả.');
+    return;
+  }
+
+  if (itineraryPayload.length !== dayCount || !itineraryPayload.isValid) {
+    showToast('Vui lòng nhập đầy đủ lịch trình cho tất cả các ngày (không được bỏ trống buổi nào).');
     return;
   }
 
@@ -555,10 +721,7 @@ async function saveTour() {
     description,
     price,
     availableSlots: slots,
-    itineraries: itineraryPayload.length ? itineraryPayload : Array.from({ length: dayCount }, (_, index) => ({
-      dayNumber: index + 1,
-      description: `Lich trinh ngay ${index + 1}`
-    }))
+    itineraries: itineraryPayload
   };
 
   try {
@@ -570,7 +733,8 @@ async function saveTour() {
           description: body.description,
           price: body.price,
           availableSlots: body.availableSlots
-        }
+        },
+        token
       });
 
       const existingTour = await tourApi(`/api/tours/${adminState.editingTourId}`);
@@ -580,35 +744,42 @@ async function saveTour() {
           method: 'PUT',
           body: {
             dayNumber: item.dayNumber,
-            description: body.itineraries[item.dayNumber - 1]?.description || item.description
-          }
+            morning: body.itineraries.find(i => i.dayNumber === item.dayNumber)?.morning,
+            noon: body.itineraries.find(i => i.dayNumber === item.dayNumber)?.noon,
+            afternoon: body.itineraries.find(i => i.dayNumber === item.dayNumber)?.afternoon,
+            evening: body.itineraries.find(i => i.dayNumber === item.dayNumber)?.evening
+          },
+          token
         });
       }
 
       for (let index = existingItineraries.length; index < body.itineraries.length; index += 1) {
         await tourApi(`/api/tours/${adminState.editingTourId}/itineraries`, {
           method: 'POST',
-          body: body.itineraries[index]
+          body: body.itineraries[index],
+          token
         });
       }
 
       for (let index = body.itineraries.length; index < existingItineraries.length; index += 1) {
         await tourApi(`/api/tours/${adminState.editingTourId}/itineraries/${existingItineraries[index].id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          token
         });
       }
     } else {
       await tourApi('/api/tours', {
         method: 'POST',
-        body
+        body,
+        token
       });
     }
 
     closeTourModal();
     await loadAdminData();
-    showToast('Da luu tour thanh cong.');
+    showToast('Đã lưu tour thành công.');
   } catch (error) {
-    showToast(error.message || 'Khong the luu tour.');
+    showToast(error.message || 'Không thể lưu tour.');
   }
 }
 
@@ -618,15 +789,16 @@ function confirmDelete(id) {
     return;
   }
 
-  document.getElementById('confirmMsg').textContent = `Ban co chac muon xoa tour "${tour.name}"?`;
+  document.getElementById('confirmMsg').textContent = `Bạn có chắc muốn xóa tour "${tour.name}"?`;
   document.getElementById('confirmActionBtn').onclick = async () => {
     try {
-      await tourApi(`/api/tours/${id}`, { method: 'DELETE' });
+      const token = requireSession()?.accessToken;
+      await tourApi(`/api/tours/${id}`, { method: 'DELETE', token });
       closeModal('confirmModal');
       await loadAdminData();
-      showToast('Da xoa tour.');
+      showToast('Đã xóa tour.');
     } catch (error) {
-      showToast(error.message || 'Xoa tour that bai.');
+      showToast(error.message || 'Xóa tour thất bại.');
     }
   };
   document.getElementById('confirmModal').classList.add('open');
@@ -634,14 +806,16 @@ function confirmDelete(id) {
 
 async function updateBookingStatus(id, status) {
   try {
+    const token = requireSession()?.accessToken;
     await bookingApi(`/api/bookings/${id}/status`, {
       method: 'PATCH',
-      body: { status }
+      body: { status },
+      token
     });
     await loadAdminData();
-    showToast(`Da cap nhat booking sang ${status}.`);
+    showToast(`Đã cập nhật booking sang ${status}.`);
   } catch (error) {
-    showToast(error.message || 'Khong the cap nhat booking.');
+    showToast(error.message || 'Không thể cập nhật booking.');
   }
 }
 
@@ -651,12 +825,37 @@ function previewTour(id) {
     return;
   }
 
-  showToast(`${tour.name} - ${tour.duration} - ${formatPrice(tour.price)}`);
+  const title = document.getElementById('detailModalTitle');
+  const body = document.getElementById('detailModalBody');
+  if (title && body) {
+    title.textContent = `Chi tiết Tour`;
+    body.innerHTML = `
+      <p style="margin-bottom:0.5rem"><strong>Tên tour:</strong> ${escapeHtml(tour.name)}</p>
+      <p style="margin-bottom:0.5rem"><strong>Thời gian:</strong> ${escapeHtml(tour.duration)}</p>
+      <p style="margin-bottom:0.5rem"><strong>Giá:</strong> <span style="color:var(--gold);font-weight:600">${formatPrice(tour.price)}</span></p>
+      <p style="margin-bottom:0.5rem"><strong>Số chỗ còn lại:</strong> ${tour.availableSlots}</p>
+      <p style="margin-bottom:0.5rem"><strong>Điểm đến:</strong> ${escapeHtml(tour.destination)}</p>
+    `;
+    document.getElementById('detailModal').classList.add('open');
+  }
 }
 
 function showCustomerProfile(id) {
   const user = getUserById(id);
-  showToast(user ? user.email : `User ${id.slice(0, 8)}`);
+  const bookings = adminState.bookings.filter(b => b.userId === id);
+  const total = sumBookingRevenue(bookings);
+  const title = document.getElementById('detailModalTitle');
+  const body = document.getElementById('detailModalBody');
+  if (title && body) {
+    title.textContent = `Hồ sơ Khách hàng`;
+    body.innerHTML = `
+      <p style="margin-bottom:0.5rem"><strong>Email:</strong> ${user ? escapeHtml(user.email) : `User ${id.slice(0,8)}`}</p>
+      <p style="margin-bottom:0.5rem"><strong>Số booking:</strong> ${bookings.length}</p>
+      <p style="margin-bottom:0.5rem"><strong>Tổng chi tiêu:</strong> <span style="color:var(--gold);font-weight:600">${formatPrice(total)}</span></p>
+      <p style="margin-bottom:0.5rem"><strong>Hạng VIP:</strong> ${vipBadge(deriveVip(bookings.length))}</p>
+    `;
+    document.getElementById('detailModal').classList.add('open');
+  }
 }
 
 function closeModal(id) {
@@ -676,9 +875,9 @@ document.addEventListener('click', (event) => {
 function statusBadge(status) {
   const normalized = (status || '').toLowerCase();
   const labels = {
-    paid: '<span class="badge badge-paid">Da thanh toan</span>',
-    pending: '<span class="badge badge-pending">Cho thanh toan</span>',
-    cancelled: '<span class="badge badge-cancelled">Da huy</span>'
+    paid: '<span class="badge badge-paid">Đã thanh toán</span>',
+    pending: '<span class="badge badge-pending">Chờ thanh toán</span>',
+    cancelled: '<span class="badge badge-cancelled">Đã hủy</span>'
   };
   return labels[normalized] || normalized;
 }
@@ -773,7 +972,7 @@ function buildBookingChartData(period) {
 
 function formatRevenueCompact(value) {
   if (value >= 1000000000) {
-    return `${(value / 1000000000).toFixed(1)} ty`;
+    return `${(value / 1000000000).toFixed(1)} tỷ`;
   }
   if (value >= 1000000) {
     return `${Math.round(value / 1000000)} tr`;

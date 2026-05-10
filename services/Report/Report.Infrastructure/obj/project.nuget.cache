@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "24o10LM3jTA=",
+  "dgSpecHash": "//q/DzSaHcU=",
   "success": true,
-  "projectFilePath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Report\\Report.Infrastructure\\Report.Infrastructure.csproj",
+  "projectFilePath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Report\\Report.Infrastructure\\Report.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thanh\\.nuget\\packages\\dapper\\2.1.28\\dapper.2.1.28.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",

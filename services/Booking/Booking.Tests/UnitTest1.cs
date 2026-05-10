@@ -9,8 +9,7 @@ public sealed class BookingValidationTests
     public async Task CreateBookingRequestValidator_Should_Fail_When_UserId_Is_Empty()
     {
         var validator = new CreateBookingRequestValidator();
-        var request = new CreateBookingRequest(Guid.Empty, Guid.NewGuid());
-
+        var request = new CreateBookingRequest(Guid.Empty, Guid.NewGuid(), "test@example.com", "Test Tour", 1000m);
         var result = await validator.ValidateAsync(request);
 
         Assert.False(result.IsValid);

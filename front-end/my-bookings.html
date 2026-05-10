@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxTravel – Tour của tôi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ===== MY BOOKINGS PAGE STYLES ===== */
+  .my-bookings-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 120px 2rem 4rem;
+  }
+
+  .page-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .page-tab {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: var(--trans);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .page-tab:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .page-tab.active {
+    background: rgba(201,169,110,0.15);
+    color: var(--gold);
+    border: 1px solid rgba(201,169,110,0.3);
+  }
+
+  .page-tab .tab-count {
+    background: var(--gold);
+    color: var(--dark);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    min-width: 24px;
+    text-align: center;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .booking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .booking-card {
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--trans);
+  }
+
+  .booking-card:hover {
+    border-color: rgba(201,169,110,0.2);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .booking-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .booking-tour-info {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .booking-tour-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 0.25rem;
+  }
+
+  .booking-tour-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .booking-status {
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .status-pending {
+    background: rgba(255,193,7,0.15);
+    color: #ffc107;
+    border: 1px solid rgba(255,193,7,0.3);
+  }
+
+  .status-paid {
+    background: rgba(100,200,120,0.15);
+    color: #64c878;
+    border: 1px solid rgba(100,200,120,0.3);
+  }
+
+  .status-cancelled {
+    background: rgba(244,67,54,0.15);
+    color: #f44336;
+    border: 1px solid rgba(244,67,54,0.3);
+  }
+
+  .status-confirmed {
+    background: rgba(33,150,243,0.15);
+    color: #2196f3;
+    border: 1px solid rgba(33,150,243,0.3);
+  }
+
+  .booking-card-body {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .booking-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .booking-detail-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .booking-detail-value {
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .booking-detail-value.gold {
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .booking-card-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .booking-card-footer .btn-outline-dark {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.85rem;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--dark-3);
+    border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+  }
+
+  .empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  .empty-state h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Favorites grid */
+  .favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .favorite-card {
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--trans);
+    position: relative;
+  }
+
+  .favorite-card:hover {
+    border-color: rgba(201,169,110,0.3);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .favorite-card-img {
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .favorite-card-img .favorite-heart {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: var(--trans);
+    box-shadow: var(--shadow);
+  }
+
+  .favorite-card-img .favorite-heart:hover {
+    transform: scale(1.1);
+  }
+
+  .favorite-card-body {
+    padding: 1.25rem;
+  }
+
+  .favorite-card-destination {
+    font-size: 0.72rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+  }
+
+  .favorite-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .favorite-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .favorite-card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .favorite-card-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .favorite-card-actions .btn-sm {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  /* Stats cards */
+  .booking-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .stat-card {
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: var(--trans);
+  }
+
+  .stat-card:hover {
+    border-color: rgba(201,169,110,0.2);
+  }
+
+  .stat-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-sm);
+    background: rgba(201,169,110,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .stat-card-info h4 {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-card-info p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.75rem;
+    color: var(--gold);
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  /* Loading state */
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(201,169,110,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .my-bookings-container {
+      padding: 100px 1rem 2rem;
+    }
+
+    .booking-card-header {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .booking-card-body {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .page-tabs {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .page-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .page-tab {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <nav class="nav-container">
+    <div class="logo" onclick="showPage('home'); window.location.href='index.html'">
+      <span class="logo-icon">✦</span>
+      <span class="logo-text">LuxTravel</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+      <li><a href="index.html#tours" class="nav-link">Điểm đến</a></li>
+      <li><a href="#" class="nav-link">Khuyến mãi</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions"></div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="my-bookings-container">
+  <div class="section-header" style="text-align:left;margin-bottom:2rem;">
+    <h1 class="section-title" style="font-size:2.5rem;">Tour Của Tôi</h1>
+    <p class="section-sub">Quản lý bookings và tour yêu thích của bạn</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="page-tabs">
+    <button class="page-tab active" data-tab="upcoming" onclick="switchTab('upcoming')">
+      <span>Tour Sắp Tới</span>
+      <span class="tab-count" id="count-upcoming">0</span>
+    </button>
+    <button class="page-tab" data-tab="current" onclick="switchTab('current')">
+      <span>Đang Tham Gia</span>
+      <span class="tab-count" id="count-current">0</span>
+    </button>
+    <button class="page-tab" data-tab="history" onclick="switchTab('history')">
+      <span>Lịch Sử</span>
+      <span class="tab-count" id="count-history">0</span>
+    </button>
+    <button class="page-tab" data-tab="favorites" onclick="switchTab('favorites')">
+      <span>Yêu Thích</span>
+      <span class="tab-count" id="count-favorites">0</span>
+    </button>
+  </div>
+
+  <!-- UPCOMING TOURS TAB -->
+  <div class="tab-content active" id="tab-upcoming">
+    <div class="booking-stats" id="upcoming-stats"></div>
+    <div class="booking-list" id="upcoming-list">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- CURRENT TOURS TAB -->
+  <div class="tab-content" id="tab-current">
+    <div class="booking-list" id="current-list">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- HISTORY TAB -->
+  <div class="tab-content" id="tab-history">
+    <div class="booking-list" id="history-list">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- FAVORITES TAB -->
+  <div class="tab-content" id="tab-favorites">
+    <div class="favorites-grid" id="favorites-list">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
+  </div>
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="shared.js"></script>
+<script>
+// ===== STATE =====
+const state = {
+  bookings: [],
+  favorites: [],
+  tours: [],
+  loaded: false
+};
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', async () => {
+  initHeader();
+  syncAuthUi();
+  
+  const session = requireSession();
+  if (!session) {
+    showToast('Vui lòng đăng nhập để xem tour của bạn.');
+    setTimeout(() => window.location.href = 'index.html', 1500);
+    return;
+  }
+  
+  await loadData();
+  state.loaded = true;
+});
+
+window.addEventListener('luxtravel:auth-changed', () => {
+  syncAuthUi();
+});
+
+function initHeader() {
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    header.classList.toggle('scrolled', window.scrollY > 50);
+  });
+}
+
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// ===== AUTH UI =====
+function syncAuthUi() {
+  const navActions = document.getElementById('navActions');
+  const session = requireSession();
+
+  if (!navActions) return;
+
+  if (!session) {
+    navActions.innerHTML = `
+      <button class="btn-outline" onclick="window.location.href='index.html'">Đăng nhập</button>
+    `;
+    return;
+  }
+
+  navActions.innerHTML = `
+    <span style="color:var(--text);font-size:0.92rem">Xin chào, ${escapeHtml(session.profile?.name || session.user.email)}</span>
+    <button class="btn-outline" onclick="window.location.href='index.html'">Trang chủ</button>
+    <button class="btn-primary" onclick="logout()">Đăng xuất</button>
+  `;
+}
+
+function logout() {
+  clearSession();
+  showToast('Đã đăng xuất.');
+  setTimeout(() => window.location.href = 'index.html', 1000);
+}
+
+// ===== LOAD DATA =====
+async function loadData() {
+  try {
+    const session = getSession();
+    const token = session?.accessToken;
+    
+    const [bookingsData, favoritesData] = await Promise.all([
+      bookingApi('/api/bookings/my-bookings', { token }),
+      favoritesApi('', { token })
+    ]);
+    
+    state.bookings = bookingsData || [];
+    state.favorites = favoritesData || [];
+    
+    // Load tour details for favorites
+    if (state.favorites.length > 0) {
+      const tourPromises = state.favorites.map(f => 
+        tourApi(`/api/tours/${f.tourId}`).catch(() => null)
+      );
+      const tourResults = await Promise.all(tourPromises);
+      state.tours = tourResults.filter(t => t !== null);
+    }
+    
+    renderAllTabs();
+  } catch (error) {
+    console.error('Load data error:', error);
+    showToast('Không thể tải dữ liệu. Vui lòng thử lại.');
+    renderEmptyState('upcoming-list', 'Không thể tải dữ liệu', 'Vui lòng thử làm mới trang.');
+  }
+}
+
+// ===== TAB SWITCHING =====
+function switchTab(tabName) {
+  document.querySelectorAll('.page-tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  
+  document.querySelector(`[data-tab="${tabName}"]`)?.classList.add('active');
+  document.getElementById(`tab-${tabName}`)?.classList.add('active');
+}
+
+// ===== RENDER FUNCTIONS =====
+function renderAllTabs() {
+  const now = new Date();
+  
+  const upcoming = state.bookings.filter(b => 
+    b.status === 'Pending' || b.status === 'Confirmed' || 
+    (b.departureDate && new Date(b.departureDate) > now)
+  );
+  
+  const current = []; // Would need tour start/end dates to determine
+  
+  const history = state.bookings.filter(b => 
+    b.status === 'Cancelled' || b.status === 'Completed' ||
+    (b.departureDate && new Date(b.departureDate) < now)
+  );
+  
+  // Update counts
+  document.getElementById('count-upcoming').textContent = upcoming.length;
+  document.getElementById('count-current').textContent = current.length;
+  document.getElementById('count-history').textContent = history.length;
+  document.getElementById('count-favorites').textContent = state.favorites.length;
+  
+  // Render upcoming
+  if (upcoming.length > 0) {
+    renderUpcomingStats(upcoming);
+    document.getElementById('upcoming-list').innerHTML = upcoming.map(b => renderBookingCard(b)).join('');
+  } else {
+    renderEmptyState('upcoming-list', 'Chưa có tour sắp tới', 'Hãy khám phá và đặt một tour ngay!');
+  }
+  
+  // Render current
+  if (current.length > 0) {
+    document.getElementById('current-list').innerHTML = current.map(b => renderBookingCard(b)).join('');
+  } else {
+    document.getElementById('current-list').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🌴</div>
+        <h3>Không có tour đang diễn ra</h3>
+        <p>Bạn không có tour nào đang trong thời gian tham gia.</p>
+        <button class="btn-primary" onclick="window.location.href='index.html'">Khám phá tour</button>
+      </div>
+    `;
+  }
+  
+  // Render history
+  if (history.length > 0) {
+    document.getElementById('history-list').innerHTML = history.map(b => renderBookingCard(b, true)).join('');
+  } else {
+    renderEmptyState('history-list', 'Chưa có lịch sử tour', 'Những tour bạn đã hoàn thành hoặc hủy sẽ hiển thị ở đây.');
+  }
+  
+  // Render favorites
+  if (state.favorites.length > 0) {
+    renderFavorites();
+  } else {
+    document.getElementById('favorites-list').innerHTML = `
+      <div class="empty-state" style="grid-column: 1/-1;">
+        <div class="empty-state-icon">❤️</div>
+        <h3>Chưa có tour yêu thích</h3>
+        <p>Nhấn vào biểu tượng trái tim để lưu tour bạn thích.</p>
+        <button class="btn-primary" onclick="window.location.href='index.html'">Khám phá tour</button>
+      </div>
+    `;
+  }
+}
+
+function renderUpcomingStats(bookings) {
+  const totalSpent = bookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
+  const pendingCount = bookings.filter(b => b.status === 'Pending').length;
+  const confirmedCount = bookings.filter(b => b.status === 'Confirmed' || b.status === 'Paid').length;
+  
+  document.getElementById('upcoming-stats').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-card-icon">🎫</div>
+      <div class="stat-card-info">
+        <h4>Tổng tour</h4>
+        <p>${bookings.length}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">⏳</div>
+      <div class="stat-card-info">
+        <h4>Đang chờ</h4>
+        <p>${pendingCount}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">✅</div>
+      <div class="stat-card-info">
+        <h4>Đã xác nhận</h4>
+        <p>${confirmedCount}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">💰</div>
+      <div class="stat-card-info">
+        <h4>Tổng chi</h4>
+        <p>${formatPrice(totalSpent)}</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderBookingCard(booking, isHistory = false) {
+  const statusClass = getStatusClass(booking.status);
+  const statusText = getStatusText(booking.status);
+  const bookingCode = booking.id?.slice(0, 8).toUpperCase() || 'N/A';
+  
+  return `
+    <div class="booking-card">
+      <div class="booking-card-header">
+        <div class="booking-tour-info">
+          <h3 class="booking-tour-name">${escapeHtml(booking.tourName || 'Tour ' + bookingCode)}</h3>
+          <div class="booking-tour-meta">
+            <span>Mã: ${bookingCode}</span>
+            <span>📅 ${formatDate(booking.createdAtUtc)}</span>
+          </div>
+        </div>
+        <span class="booking-status ${statusClass}">${statusText}</span>
+      </div>
+      <div class="booking-card-body">
+        <div class="booking-detail">
+          <span class="booking-detail-label">Email</span>
+          <span class="booking-detail-value">${escapeHtml(booking.customerEmail || '--')}</span>
+        </div>
+        <div class="booking-detail">
+          <span class="booking-detail-label">Ngày khởi hành</span>
+          <span class="booking-detail-value">${formatDate(booking.departureDate) || 'Chưa xác định'}</span>
+        </div>
+        <div class="booking-detail">
+          <span class="booking-detail-label">Trạng thái</span>
+          <span class="booking-detail-value">${statusText}</span>
+        </div>
+        <div class="booking-detail">
+          <span class="booking-detail-label">Tổng tiền</span>
+          <span class="booking-detail-value gold">${formatPrice(booking.totalPrice)}</span>
+        </div>
+      </div>
+      <div class="booking-card-footer">
+        <button class="btn-outline-dark btn-sm" onclick="viewBookingDetail('${booking.id}')">Chi tiết</button>
+        ${booking.status === 'Pending' ? '<button class="btn-primary btn-sm" onclick="cancelBooking(\'' + booking.id + '\')">Hủy đặt</button>' : ''}
+        ${isHistory ? '<button class="btn-outline-dark btn-sm" onclick="rebookTour(\'' + booking.tourId + '\')">Đặt lại</button>' : ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderFavorites() {
+  const container = document.getElementById('favorites-list');
+  
+  container.innerHTML = state.favorites.map(favorite => {
+    const tour = state.tours.find(t => t.id === favorite.tourId);
+    const normalizedTour = tour ? normalizeTour(tour) : null;
+    
+    if (!normalizedTour) {
+      return `
+        <div class="favorite-card">
+          <div class="favorite-card-img" style="background:#1e1e1e;display:flex;align-items:center;justify-content:center;">
+            <span style="color:var(--text-muted)">Tour đã bị xóa</span>
+          </div>
+          <div class="favorite-card-body">
+            <p class="favorite-card-destination">--</p>
+            <h3 class="favorite-card-name">Tour không tồn tại</h3>
+            <div class="favorite-card-footer">
+              <button class="btn-outline-dark btn-sm" onclick="removeFavorite('${favorite.tourId}')">Xóa khỏi yêu thích</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    return `
+      <div class="favorite-card">
+        <div class="favorite-card-img" style="background-image:url('${escapeHtml(normalizedTour.img)}')">
+          <button class="favorite-heart" onclick="removeFavorite('${favorite.tourId}')" title="Bỏ yêu thích">♥</button>
+        </div>
+        <div class="favorite-card-body">
+          <p class="favorite-card-destination">${escapeHtml(normalizedTour.destination)}</p>
+          <h3 class="favorite-card-name">${escapeHtml(normalizedTour.name)}</h3>
+          <div class="favorite-card-footer">
+            <span class="favorite-card-price">${formatPrice(normalizedTour.price)}</span>
+            <div class="favorite-card-actions">
+              <button class="btn-outline-dark btn-sm" onclick="viewFavoriteTour('${favorite.tourId}')">Xem</button>
+              <button class="btn-primary btn-sm" onclick="bookFavoriteTour('${favorite.tourId}')">Đặt tour</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderEmptyState(containerId, title, message) {
+  const container = document.getElementById(containerId);
+  const icon = containerId.includes('favorites') ? '❤️' : '🎫';
+  const btnText = containerId.includes('favorites') ? 'Khám phá tour' : 'Tìm tour ngay';
+  
+  container.innerHTML = `
+    <div class="empty-state">
+      <div class="empty-state-icon">${icon}</div>
+      <h3>${title}</h3>
+      <p>${message}</p>
+      <button class="btn-primary" onclick="window.location.href='index.html'">${btnText}</button>
+    </div>
+  `;
+}
+
+// ===== HELPER FUNCTIONS =====
+function getStatusClass(status) {
+  const statusMap = {
+    'Pending': 'status-pending',
+    'Paid': 'status-paid',
+    'Cancelled': 'status-cancelled',
+    'Confirmed': 'status-confirmed',
+    'Completed': 'status-paid'
+  };
+  return statusMap[status] || 'status-pending';
+}
+
+function getStatusText(status) {
+  const textMap = {
+    'Pending': 'Chờ thanh toán',
+    'Paid': 'Đã thanh toán',
+    'Cancelled': 'Đã hủy',
+    'Confirmed': 'Đã xác nhận',
+    'Completed': 'Hoàn thành'
+  };
+  return textMap[status] || status;
+}
+
+// ===== ACTIONS =====
+async function removeFavorite(tourId) {
+  if (!confirm('Bạn có chắc muốn xóa tour này khỏi danh sách yêu thích?')) {
+    return;
+  }
+  
+  try {
+    const session = getSession();
+    await favoritesApi(`/${tourId}`, { method: 'DELETE', token: session?.accessToken });
+    
+    state.favorites = state.favorites.filter(f => f.tourId !== tourId);
+    renderFavorites();
+    document.getElementById('count-favorites').textContent = state.favorites.length;
+    
+    showToast('Đã xóa khỏi danh sách yêu thích.');
+  } catch (error) {
+    showToast(error.message || 'Không thể xóa khỏi yêu thích.');
+  }
+}
+
+function viewFavoriteTour(tourId) {
+  window.location.href = `tour-detail.html?id=${tourId}`;
+}
+
+function bookFavoriteTour(tourId) {
+  window.location.href = `tour-detail.html?id=${tourId}&book=1`;
+}
+
+function viewBookingDetail(bookingId) {
+  // Could open a modal or navigate to detail page
+  showToast(`Mã booking: ${bookingId?.slice(0, 8).toUpperCase() || 'N/A'}`);
+}
+
+async function cancelBooking(bookingId) {
+  if (!confirm('Bạn có chắc muốn hủy đặt tour này?')) {
+    return;
+  }
+  
+  try {
+    const session = getSession();
+    await bookingApi(`/api/bookings/${bookingId}/status`, {
+      method: 'PATCH',
+      token: session?.accessToken,
+      body: { status: 'Cancelled' }
+    });
+    
+    showToast('Đã hủy đặt tour thành công.');
+    await loadData();
+  } catch (error) {
+    showToast(error.message || 'Không thể hủy đặt tour.');
+  }
+}
+
+function rebookTour(tourId) {
+  window.location.href = `tour-detail.html?id=${tourId}&book=1`;
+}
+
+// ===== TOAST =====
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>

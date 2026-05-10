@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Booking.API.Models;
 using Booking.Application.DTOs;
@@ -7,6 +9,7 @@ namespace Booking.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public sealed class BookingsController(IBookingService bookingService) : ControllerBase
 {
     [HttpGet]
@@ -15,6 +18,15 @@ public sealed class BookingsController(IBookingService bookingService) : Control
     {
         var response = await bookingService.GetAllAsync(cancellationToken);
         return Ok(ApiResponse<IReadOnlyList<BookingResponse>>.Ok(response, "Bookings retrieved successfully."));
+    }
+
+    [HttpGet("my-bookings")]
+    [ProducesResponseType(typeof(ApiResponse<IReadOnlyList<BookingResponse>>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetMyBookings(CancellationToken cancellationToken)
+    {
+        var userId = GetCurrentUserId();
+        var response = await bookingService.GetByUserIdAsync(userId, cancellationToken);
+        return Ok(ApiResponse<IReadOnlyList<BookingResponse>>.Ok(response, "User bookings retrieved successfully."));
     }
 
     [HttpGet("{id:guid}")]
@@ -36,10 +48,19 @@ public sealed class BookingsController(IBookingService bookingService) : Control
     }
 
     [HttpPatch("{id:guid}/status")]
+    [Authorize(Roles = "Admin,Staff")]
     [ProducesResponseType(typeof(ApiResponse<BookingResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] UpdateBookingStatusRequest request, CancellationToken cancellationToken)
     {
         var response = await bookingService.UpdateStatusAsync(id, request, cancellationToken);
         return Ok(ApiResponse<BookingResponse>.Ok(response, "Booking status updated successfully."));
+    }
+
+    private Guid GetCurrentUserId()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+            ?? throw new UnauthorizedAccessException("User identifier claim is missing.");
+
+        return Guid.Parse(userId);
     }
 }

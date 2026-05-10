@@ -1100,11 +1100,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Tests\\Booking.Tests.csproj",
+      "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Tests\\Booking.Tests.csproj",
       "projectName": "Booking.Tests",
-      "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Tests\\Booking.Tests.csproj",
+      "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Tests\\Booking.Tests.csproj",
       "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-      "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Tests\\obj\\",
+      "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1125,8 +1125,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Application\\Booking.Application.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Booking\\Booking.Application\\Booking.Application.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Application\\Booking.Application.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Booking\\Booking.Application\\Booking.Application.csproj"
             }
           }
         }

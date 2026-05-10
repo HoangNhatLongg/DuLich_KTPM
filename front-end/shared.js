@@ -1,7 +1,10 @@
 const API_CONFIG = Object.freeze({
-  userServiceUrl: 'http://localhost:5080',
-  tourServiceUrl: 'http://localhost:5088',
-  bookingServiceUrl: 'http://localhost:5142'
+  userServiceUrl: 'http://localhost:5000',
+  tourServiceUrl: 'http://localhost:5000',
+  bookingServiceUrl: 'http://localhost:5000',
+  paymentServiceUrl: 'http://localhost:5000',
+  staffServiceUrl: 'http://localhost:5000',
+  reportServiceUrl: 'http://localhost:5000'
 });
 
 const STORAGE_KEYS = Object.freeze({
@@ -47,9 +50,15 @@ const TOUR_VISUALS = [
   }
 ];
 
+function getSessionKey() {
+  return window.location.pathname.includes('admin.html') 
+    ? 'luxtravel.admin.session' 
+    : 'luxtravel.session';
+}
+
 function getSession() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEYS.session);
+    const raw = localStorage.getItem(getSessionKey());
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
@@ -69,13 +78,13 @@ function saveSession(authResponse, extras = {}) {
     }
   };
 
-  localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(session));
+  localStorage.setItem(getSessionKey(), JSON.stringify(session));
   window.dispatchEvent(new CustomEvent('luxtravel:auth-changed', { detail: session }));
   return session;
 }
 
 function clearSession() {
-  localStorage.removeItem(STORAGE_KEYS.session);
+  localStorage.removeItem(getSessionKey());
   window.dispatchEvent(new CustomEvent('luxtravel:auth-changed', { detail: null }));
 }
 
@@ -89,6 +98,10 @@ function isSessionValid(session = getSession()) {
 
 function requireSession() {
   const session = getSession();
+  if (!session) {
+    return null;
+  }
+  
   if (!isSessionValid(session)) {
     clearSession();
     return null;
@@ -143,7 +156,7 @@ async function apiRequest(baseUrl, path, options = {}) {
     }
 
     if (!errorMessage) {
-      errorMessage = 'Khong the ket noi toi he thong.';
+      errorMessage = 'Lỗi hệ thống hoặc định dạng dữ liệu không hợp lệ.';
     }
 
     const error = new Error(errorMessage);
@@ -165,6 +178,22 @@ function tourApi(path, options) {
 
 function bookingApi(path, options) {
   return apiRequest(API_CONFIG.bookingServiceUrl, path, options);
+}
+
+function paymentApi(path, options) {
+  return apiRequest(API_CONFIG.paymentServiceUrl, path, options);
+}
+
+function staffApi(path, options) {
+  return apiRequest(API_CONFIG.staffServiceUrl, path, options);
+}
+
+function reportApi(path, options) {
+  return apiRequest(API_CONFIG.reportServiceUrl, path, options);
+}
+
+function favoritesApi(path, options) {
+  return apiRequest(API_CONFIG.bookingServiceUrl, `/api/favorites${path}`, options);
 }
 
 function normalizeTour(rawTour) {
@@ -197,9 +226,19 @@ function normalizeTour(rawTour) {
       .sort((left, right) => left.dayNumber - right.dayNumber)
       .map((item) => ({
         id: item.id,
-        day: `Ngay ${item.dayNumber}`,
-        title: `Lich trinh ngay ${item.dayNumber}`,
-        desc: item.description
+        dayNumber: item.dayNumber,
+        day: `Ngày ${item.dayNumber}`,
+        title: `Lịch trình ngày ${item.dayNumber}`,
+        morning: item.morning || '',
+        noon: item.noon || '',
+        afternoon: item.afternoon || '',
+        evening: item.evening || '',
+        desc: [
+          item.morning ? `Sáng: ${item.morning}` : '',
+          item.noon ? `Trưa: ${item.noon}` : '',
+          item.afternoon ? `Chiều: ${item.afternoon}` : '',
+          item.evening ? `Tối: ${item.evening}` : ''
+        ].filter(Boolean).join('\n')
       })),
     updatedAt: rawTour.updatedAtUtc || rawTour.createdAtUtc || null
   };
@@ -221,21 +260,31 @@ function buildHighlights(description, itineraries) {
     .slice()
     .sort((left, right) => left.dayNumber - right.dayNumber)
     .slice(0, 2)
-    .forEach((item) => highlights.push(`Ngay ${item.dayNumber}: ${item.description}`));
+    .forEach((item) => {
+      const summary = [
+        item.morning ? `Sáng: ${item.morning}` : '',
+        item.noon ? `Trưa: ${item.noon}` : '',
+        item.afternoon ? `Chiều: ${item.afternoon}` : '',
+        item.evening ? `Tối: ${item.evening}` : ''
+      ].filter(Boolean).join(' - ');
+      if (summary) {
+        highlights.push(`Ngày ${item.dayNumber}: ${summary}`);
+      }
+    });
 
-  return highlights.length > 0 ? highlights : ['Dang cap nhat thong tin tour'];
+  return highlights.length > 0 ? highlights : ['Đang cập nhật thông tin tour'];
 }
 
 function getSyntheticBadge(price, availableSlots) {
   if (availableSlots > 0 && availableSlots <= 5) {
-    return 'Sap het cho';
+    return 'Sắp hết chỗ';
   }
 
   if (price >= 40000000) {
-    return 'Cao cap';
+    return 'Cao cấp ';
   }
 
-  return 'Noi bat';
+  return 'Nổi bật';
 }
 
 function getSyntheticRating(price, availableSlots) {
@@ -246,7 +295,7 @@ function getSyntheticRating(price, availableSlots) {
 function inferDestinationFromDescription(description = '') {
   const trimmed = description.trim();
   if (!trimmed) {
-    return 'Diem den dac sac';
+    return 'Điểm đến đặc sắc';
   }
 
   return trimmed.split(/[.!?]/)[0].slice(0, 48);

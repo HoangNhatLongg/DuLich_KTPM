@@ -1104,11 +1104,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Tests\\Notification.Tests.csproj",
+      "projectUniqueName": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Tests\\Notification.Tests.csproj",
       "projectName": "Notification.Tests",
-      "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Tests\\Notification.Tests.csproj",
+      "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Tests\\Notification.Tests.csproj",
       "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-      "outputPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.Tests\\obj\\",
+      "outputPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1129,8 +1129,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.API\\Notification.API.csproj": {
-              "projectPath": "D:\\KienTrucPhanMem\\TieuLuan\\services\\Notification\\Notification.API\\Notification.API.csproj"
+            "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.API\\Notification.API.csproj": {
+              "projectPath": "C:\\KTTKPM\\DuLich_KTPM\\services\\Notification\\Notification.API\\Notification.API.csproj"
             }
           }
         }

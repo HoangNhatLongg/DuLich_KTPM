@@ -7,7 +7,8 @@ const state = {
   currentSlide: 0,
   slideInterval: null,
   activeFilter: 'all',
-  activeSearch: ''
+  activeSearch: '',
+  favoriteTourIds: new Set()
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -16,12 +17,43 @@ document.addEventListener('DOMContentLoaded', async () => {
   initScrollEffects();
   startSlider();
   syncAuthUi();
+  
+  // Event delegation for favorite buttons
+  document.addEventListener('click', (e) => {
+    const favoriteBtn = e.target.closest('.tour-favorite-btn');
+    if (favoriteBtn) {
+      e.stopPropagation();
+      e.preventDefault();
+      const tourId = favoriteBtn.dataset.tourId;
+      if (tourId) {
+        toggleFavoriteFromCard(e, tourId);
+      }
+    }
+  });
+  
+  // Load favorites first, then tours
+  await loadUserFavorites();
   await loadTours();
 });
 
 window.addEventListener('luxtravel:auth-changed', () => {
   syncAuthUi();
+  loadUserFavorites();
 });
+
+async function loadUserFavorites() {
+  const session = getSession();
+  if (!session || !isSessionValid(session)) {
+    state.favoriteTourIds = new Set();
+    return;
+  }
+  try {
+    const favorites = await favoritesApi('', { token: session.accessToken });
+    state.favoriteTourIds = new Set((favorites || []).map(f => f.tourId));
+  } catch (err) {
+    state.favoriteTourIds = new Set();
+  }
+}
 
 function setDefaultDates() {
   const nextWeek = new Date();
@@ -77,23 +109,61 @@ function syncAuthUi() {
 
   if (!session) {
     navActions.innerHTML = `
-      <button class="btn-outline" onclick="openModal('loginModal')">Dang nhap</button>
-      <button class="btn-primary" onclick="openModal('registerModal')">Dang ky</button>
+      <button class="btn-outline" onclick="openModal('loginModal')">Đăng nhập</button>
+      <button class="btn-primary" onclick="openModal('registerModal')">Đăng ký</button>
     `;
     return;
   }
 
-  const adminLink = isAdminSession(session)
-    ? '<a class="btn-outline" href="admin.html">Quan tri</a>'
-    : '';
+  const userName = session.profile?.name || session.user.email?.split('@')[0] || 'Khách hàng';
+  const initials = userName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  const isAdmin = isAdminSession(session);
 
   navActions.innerHTML = `
-    <span style="color:var(--text);font-size:0.92rem">Xin chao, ${escapeHtml(session.profile?.name || session.user.email)}</span>
-    ${adminLink}
-    <button class="btn-primary" onclick="logout()">Dang xuat</button>
+    <div class="user-dropdown" id="userDropdown">
+      <button class="user-dropdown-trigger" onclick="toggleUserDropdown()">
+        <div class="user-avatar">${initials}</div>
+        <span class="user-name">${escapeHtml(userName)}</span>
+        <span class="dropdown-arrow">▼</span>
+      </button>
+      <div class="user-dropdown-menu" id="userDropdownMenu">
+        <a href="my-bookings.html" class="dropdown-item">
+          <span class="dropdown-icon">🎫</span>
+          Tour của tôi
+        </a>
+        ${isAdmin ? `
+          <a href="admin.html" class="dropdown-item">
+            <span class="dropdown-icon">⚙️</span>
+            Quản trị
+          </a>
+        ` : ''}
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item dropdown-item-danger" onclick="logout()">
+          <span class="dropdown-icon">🚪</span>
+          Đăng xuất
+        </button>
+      </div>
+    </div>
   `;
 
+  // Close dropdown when clicking outside
+  document.addEventListener('click', closeUserDropdownOnClickOutside);
   prefillCustomerFields(session);
+}
+
+function toggleUserDropdown() {
+  const menu = document.getElementById('userDropdownMenu');
+  if (menu) {
+    menu.classList.toggle('show');
+  }
+}
+
+function closeUserDropdownOnClickOutside(event) {
+  const dropdown = document.getElementById('userDropdown');
+  const menu = document.getElementById('userDropdownMenu');
+  if (dropdown && !dropdown.contains(event.target)) {
+    menu?.classList.remove('show');
+  }
 }
 
 async function loadTours() {
@@ -136,7 +206,7 @@ function renderFeaturedTours() {
   const featured = state.tours.slice(0, 3);
   container.innerHTML = featured.length
     ? featured.map((tour) => tourCardHtml(tour)).join('')
-    : '<p style="text-align:center;color:var(--text-muted)">Chua co du lieu tour.</p>';
+    : '<p style="text-align:center;color:var(--text-muted)">Chưa có dữ liệu tour.</p>';
 }
 
 function renderAllTours() {
@@ -154,36 +224,88 @@ function renderAllTours() {
 
   container.innerHTML = filteredTours.length
     ? filteredTours.map((tour) => tourCardHtml(tour)).join('')
-    : '<p style="text-align:center;color:var(--text-muted)">Khong tim thay tour phu hop.</p>';
+    : '<p style="text-align:center;color:var(--text-muted)">Không tìm thấy tour phù hợp.</p>';
 
   initScrollEffects();
 }
 
 function tourCardHtml(tour) {
+  const isFavorite = state.favoriteTourIds.has(tour.id);
   return `
-    <div class="tour-card animate-on-scroll" onclick="viewTour('${tour.id}')">
+    <div class="tour-card" onclick="viewTour('${tour.id}')">
       <div class="tour-card-img">
         <img src="${escapeHtml(tour.img)}" alt="${escapeHtml(tour.name)}" loading="lazy">
         <span class="tour-badge">${escapeHtml(tour.badge)}</span>
+        <button class="tour-favorite-btn ${isFavorite ? 'favorited' : ''}" 
+                data-tour-id="${tour.id}"
+                onclick="event.stopPropagation(); toggleFavoriteFromCard(event, '${tour.id}')"
+                title="${isFavorite ? 'Bỏ khỏi yêu thích' : 'Thêm vào yêu thích'}">
+          ${isFavorite ? '♥' : '♡'}
+        </button>
       </div>
       <div class="tour-card-body">
-        <p class="tour-destination">Dia diem: ${escapeHtml(tour.destination)}</p>
+        <p class="tour-destination">Địa điểm: ${escapeHtml(tour.destination)}</p>
         <h3 class="tour-name">${escapeHtml(tour.name)}</h3>
         <div class="tour-meta">
-          <span class="tour-meta-item">Thoi gian: ${escapeHtml(tour.duration)}</span>
-          <span class="tour-meta-item">Danh gia: ${tour.rating} (${tour.reviews})</span>
+          <span class="tour-meta-item">Thời gian: ${escapeHtml(tour.duration)}</span>
+          <span class="tour-meta-item">Đánh giá: ${tour.rating} (${tour.reviews})</span>
         </div>
         <div class="tour-card-footer">
           <div>
-            <span class="tour-price-label">Gia tu</span>
-            <div class="tour-price">${formatPrice(tour.price)} <span class="tour-price-unit">/ nguoi</span></div>
+            <span class="tour-price-label">Giá từ</span>
+            <div class="tour-price">${formatPrice(tour.price)} <span class="tour-price-unit">/ người</span></div>
           </div>
           <div class="tour-stars">${'★'.repeat(Math.floor(tour.rating))}</div>
         </div>
-        <button class="btn-tour" type="button">Xem chi tiet -></button>
+        <button class="btn-tour" type="button">Xem chi tiết -></button>
       </div>
     </div>
   `;
+}
+
+async function toggleFavoriteFromCard(event, tourId) {
+  event.stopPropagation();
+  event.preventDefault();
+  console.log('Toggle favorite for tour:', tourId);
+  
+  const session = getSession();
+  if (!session || !isSessionValid(session)) {
+    console.log('Not logged in, showing login modal');
+    showToast('Vui lòng đăng nhập để lưu tour yêu thích.');
+    openModal('loginModal');
+    return;
+  }
+  
+  try {
+    const wasFavorite = state.favoriteTourIds.has(tourId);
+    console.log('Current favorite state:', wasFavorite);
+    
+    // Optimistic UI update
+    if (wasFavorite) {
+      state.favoriteTourIds.delete(tourId);
+    } else {
+      state.favoriteTourIds.add(tourId);
+    }
+    renderFeaturedTours();
+    renderAllTours();
+    initScrollEffects();
+    
+    const response = await favoritesApi(`/${tourId}/toggle`, {
+      method: 'POST',
+      token: session.accessToken
+    });
+    console.log('Toggle response:', response);
+    
+    showToast(wasFavorite ? 'Đã xóa khỏi yêu thích.' : 'Đã thêm vào yêu thích!');
+  } catch (err) {
+    console.error('Toggle favorite error:', err);
+    // Revert on error
+    await loadUserFavorites();
+    renderFeaturedTours();
+    renderAllTours();
+    initScrollEffects();
+    showToast(err.message || 'Không thể cập nhật yêu thích.');
+  }
 }
 
 function filterTours(category, button) {
@@ -211,7 +333,7 @@ async function viewTour(id) {
     showPage('detail');
     updateSidebarPrice();
   } catch (error) {
-    showToast(error.message || 'Khong tai duoc chi tiet tour.');
+    showToast(error.message || 'Không tải được chi tiết tour.');
   }
 }
 
@@ -225,7 +347,7 @@ function renderTourDetail() {
     <div class="itinerary-item">
       <p class="itinerary-day">${escapeHtml(item.day)}</p>
       <h4>${escapeHtml(item.title)}</h4>
-      <p>${escapeHtml(item.desc)}</p>
+      <p style="white-space:pre-line">${escapeHtml(item.desc)}</p>
     </div>
   `).join('');
 
@@ -239,7 +361,7 @@ function renderTourDetail() {
         <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:300;color:white;margin-bottom:0.75rem;">${escapeHtml(tour.name)}</h1>
         <div class="tour-meta">
           <span class="tour-meta-item">${escapeHtml(tour.duration)}</span>
-          <span class="tour-meta-item">Con ${tour.availableSlots} cho</span>
+          <span class="tour-meta-item">Còn ${tour.availableSlots} chỗ</span>
           <span class="tour-badge">${escapeHtml(tour.badge)}</span>
         </div>
       </div>
@@ -247,50 +369,50 @@ function renderTourDetail() {
     <div class="tour-detail-body">
       <div class="tour-detail-left">
         <div class="tour-desc-block">
-          <h3>Gioi thieu tour</h3>
+          <h3>Giới thiệu tour</h3>
           <p>${escapeHtml(tour.description)}</p>
         </div>
         <div class="tour-desc-block">
-          <h3>Diem noi bat</h3>
+          <h3>Điểm nổi bật</h3>
           <ul>${highlightsHtml}</ul>
         </div>
         <div class="tour-desc-block">
-          <h3>Lich trinh chi tiet</h3>
-          ${itineraryHtml || '<p>Chua co lich trinh chi tiet.</p>'}
+          <h3>Lịch trình chi tiết</h3>
+          ${itineraryHtml || '<p>Chưa có lịch trình chi tiết.</p>'}
         </div>
       </div>
       <div class="booking-sidebar">
         <div class="booking-sidebar-price">${formatPrice(tour.price)}</div>
-        <div class="booking-sidebar-unit">/ nguoi lon</div>
+        <div class="booking-sidebar-unit">/ người lớn</div>
         <div class="booking-form-group">
-          <label>Ngay khoi hanh</label>
+          <label>Ngày khởi hành</label>
           <input type="date" id="sidebarDate">
         </div>
         <div class="booking-form-group">
-          <label>So nguoi lon</label>
+          <label>Số người lớn</label>
           <select id="sidebarAdults" onchange="updateSidebarPrice()">
-            <option value="1">1 nguoi</option>
-            <option value="2" selected>2 nguoi</option>
-            <option value="3">3 nguoi</option>
-            <option value="4">4 nguoi</option>
-            <option value="5">5 nguoi</option>
+            <option value="1">1 người</option>
+            <option value="2" selected>2 người</option>
+            <option value="3">3 người</option>
+            <option value="4">4 người</option>
+            <option value="5">5 người</option>
           </select>
         </div>
         <div class="booking-form-group">
-          <label>So tre em</label>
+          <label>Số trẻ em</label>
           <select id="sidebarChildren" onchange="updateSidebarPrice()">
-            <option value="0" selected>0 tre em</option>
-            <option value="1">1 tre em</option>
-            <option value="2">2 tre em</option>
-            <option value="3">3 tre em</option>
+            <option value="0" selected>0 trẻ em</option>
+            <option value="1">1 trẻ em</option>
+            <option value="2">2 trẻ em</option>
+            <option value="3">3 trẻ em</option>
           </select>
         </div>
         <div class="booking-price-est">
-          <div class="booking-price-row"><span>Nguoi lon x <span id="adultQty">2</span></span><span id="adultTotal">${formatPrice(tour.price * 2)}</span></div>
-          <div class="booking-price-row"><span>Tre em x <span id="childQty">0</span></span><span id="childTotal">${formatPrice(0)}</span></div>
-          <div class="booking-price-row total"><span>Tong uoc tinh</span><span id="grandTotal">${formatPrice(tour.price * 2)}</span></div>
+          <div class="booking-price-row"><span>Người lớn x <span id="adultQty">2</span></span><span id="adultTotal">${formatPrice(tour.price * 2)}</span></div>
+          <div class="booking-price-row"><span>Trẻ em x <span id="childQty">0</span></span><span id="childTotal">${formatPrice(0)}</span></div>
+          <div class="booking-price-row total"><span>Tổng ước tính</span><span id="grandTotal">${formatPrice(tour.price * 2)}</span></div>
         </div>
-        <button class="btn-primary full-width" style="border-radius:var(--radius-sm)" onclick="openBooking('${tour.id}')">Dat tour ngay -></button>
+        <button class="btn-primary full-width" style="border-radius:var(--radius-sm)" onclick="openBooking('${tour.id}')">Đặt tour ngay -></button>
       </div>
     </div>
   `;
@@ -322,7 +444,7 @@ function updateSidebarPrice() {
 function openBooking(tourId) {
   const session = requireSession();
   if (!session) {
-    showToast('Vui long dang nhap de dat tour.');
+    showToast('Vui lòng đăng nhập để đặt tour.');
     openModal('loginModal');
     return;
   }
@@ -332,7 +454,7 @@ function openBooking(tourId) {
     : state.tours.find((tour) => tour.id === tourId);
 
   if (!sourceTour) {
-    showToast('Khong tim thay thong tin tour.');
+    showToast('Không tìm thấy thông tin tour.');
     return;
   }
 
@@ -394,35 +516,119 @@ function prevBookingStep() {
 async function confirmPayment() {
   const session = requireSession();
   if (!session || !state.bookingTour) {
-    showToast('Phien dang nhap khong hop le.');
+    showToast('Phiên đăng nhập không hợp lệ.');
     return;
   }
 
   const button = document.querySelector('#bookingStep2 .btn-primary');
   if (button) {
     button.disabled = true;
-    button.textContent = 'Dang xu ly...';
+    button.textContent = 'Đang xử lý...';
   }
 
   try {
+    const totalAmount = state.bookingTour.price * state.adultsCount + state.bookingTour.childPrice * state.childrenCount;
+
     const booking = await bookingApi('/api/bookings', {
       method: 'POST',
+      token: session.accessToken,
       body: {
         userId: session.user.id,
-        tourId: state.bookingTour.id
+        tourId: state.bookingTour.id,
+        customerEmail: session.user.email,
+        tourName: state.bookingTour.name,
+        totalPrice: totalAmount
       }
     });
 
-    await sleep(500);
-    document.getElementById('bookingStep2').classList.add('hidden');
-    document.getElementById('bookingStep3').classList.remove('hidden');
-    document.getElementById('bookingCode').textContent = booking.id.slice(0, 8).toUpperCase();
+    // Map payment method from radio
+    const pmRadio = document.querySelector('input[name="payment"]:checked');
+    let methodEnum = 1; // BankTransfer default
+    if (pmRadio) {
+      if (pmRadio.value === 'card') methodEnum = 2; // VNPay
+      if (pmRadio.value === 'wallet') methodEnum = 3; // Momo
+    }
+
+    // Process payment
+    const paymentResp = await paymentApi('/api/payments/process', {
+      method: 'POST',
+      token: session.accessToken,
+      body: {
+        bookingId: booking.id,
+        amount: totalAmount,
+        method: methodEnum
+      }
+    });
+
+    if (paymentResp && paymentResp.paymentId) {
+      state.currentPaymentId = paymentResp.paymentId;
+      state.currentBookingCode = booking.id.slice(0, 8).toUpperCase();
+      
+      // Hiển thị thông tin thanh toán
+      document.getElementById('bookingStep2').classList.add('hidden');
+      document.getElementById('bookingStep2_5').classList.remove('hidden');
+      
+      const container = document.getElementById('paymentDetailsContainer');
+      const details = paymentResp.paymentUrlOrQrCode || '';
+      
+      if (details.startsWith('http')) {
+        // Link thanh toán (Momo / VNPay)
+        container.innerHTML = `
+          <p style="margin-bottom: 1rem;">Vui lòng click vào link bên dưới để thanh toán qua cổng điện tử:</p>
+          <a href="${details}" target="_blank" style="display: inline-block; padding: 1rem 2rem; background: var(--primary); color: white; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500;">Thanh toán ngay</a>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">Sau khi hoàn tất, hãy quay lại đây và nhấn "Tôi đã hoàn tất thanh toán".</p>
+        `;
+      } else {
+        // Chuyển khoản ngân hàng
+        container.innerHTML = `
+          <p style="margin-bottom: 1rem;">Vui lòng chuyển khoản theo thông tin dưới đây:</p>
+          <div style="background: white; padding: 1.5rem; border-radius: var(--radius-sm); border: 1px dashed var(--border); text-align: left; font-family: monospace; font-size: 1.1rem; line-height: 1.6;">
+            ${details.replace(/ - /g, '<br>')}
+          </div>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">Hệ thống sẽ kiểm tra tự động sau khi bạn xác nhận.</p>
+        `;
+      }
+    } else {
+      throw new Error('Không nhận được thông tin thanh toán từ hệ thống.');
+    }
+
   } catch (error) {
-    showToast(error.message || 'Dat tour that bai.');
+    showToast(error.message || 'Đặt tour thất bại.');
   } finally {
     if (button) {
       button.disabled = false;
-      button.textContent = 'Xac nhan thanh toan';
+      button.textContent = 'Xác nhận thanh toán';
+    }
+  }
+}
+
+async function finalizePayment() {
+  const session = requireSession();
+  if (!session || !state.currentPaymentId) return;
+
+  const btn = document.getElementById('btnFinalizePayment');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Đang xác nhận...';
+  }
+
+  try {
+    // Simulate webhook
+    await paymentApi(`/api/payments/confirm/${state.currentPaymentId}`, {
+      method: 'POST',
+      token: session.accessToken
+    });
+
+    await sleep(500);
+    document.getElementById('bookingStep2_5').classList.add('hidden');
+    document.getElementById('bookingStep3').classList.remove('hidden');
+    document.getElementById('bookingCode').textContent = state.currentBookingCode;
+  } catch (err) {
+    showToast('Chưa nhận được thanh toán, vui lòng thử lại sau giây lát.');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Tôi đã hoàn tất thanh toán';
     }
   }
 }
@@ -431,8 +637,12 @@ function resetBooking() {
   state.bookingTour = null;
   state.adultsCount = 2;
   state.childrenCount = 0;
+  state.currentPaymentId = null;
+  state.currentBookingCode = null;
   document.getElementById('bookingStep1').classList.remove('hidden');
   document.getElementById('bookingStep2').classList.add('hidden');
+  const step25 = document.getElementById('bookingStep2_5');
+  if(step25) step25.classList.add('hidden');
   document.getElementById('bookingStep3').classList.add('hidden');
 }
 
@@ -473,7 +683,7 @@ async function login() {
   const password = document.getElementById('loginPassword')?.value;
 
   if (!email || !password) {
-    showToast('Vui long nhap email va mat khau.');
+    showToast('Vui lòng nhập email và mật khẩu.');
     return;
   }
 
@@ -485,9 +695,9 @@ async function login() {
 
     saveSession(response);
     closeModal('loginModal');
-    showToast(`Dang nhap thanh cong voi vai tro ${response.user.role}.`);
+    showToast(`Đăng nhập thành công với vai trò ${response.user.role}.`);
   } catch (error) {
-    showToast(error.message || 'Dang nhap that bai.');
+    showToast(error.message || 'Đăng nhập thất bại.');
   }
 }
 
@@ -498,7 +708,7 @@ async function register() {
   const password = document.getElementById('registerPassword')?.value;
 
   if (!email || !password) {
-    showToast('Vui long nhap day du thong tin bat buoc.');
+    showToast('Vui lòng nhập đầy đủ thông tin bắt buộc.');
     return;
   }
 
@@ -514,25 +724,25 @@ async function register() {
 
     saveSession(response, { name, phone });
     closeModal('registerModal');
-    showToast('Dang ky thanh cong.');
+    showToast('Đăng ký thành công.');
   } catch (error) {
-    showToast(error.message || 'Dang ky that bai.');
+    showToast(error.message || 'Đăng ký thất bại.');
   }
 }
 
 function logout() {
   clearSession();
-  showToast('Da dang xuat.');
+  showToast('Đã đăng xuất.');
 }
 
 function newsletterSignup() {
   const email = document.getElementById('newsletterEmail')?.value.trim();
   if (!email) {
-    showToast('Vui long nhap email.');
+    showToast('Vui lòng nhập email.');
     return;
   }
 
-  showToast('Da dang ky nhan ban tin.');
+  showToast('Đã đăng ký nhận bản tin.');
   document.getElementById('newsletterEmail').value = '';
 }
 
